@@ -4,7 +4,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.4'
 }
 
-group = 'flutting'
+group = 'flirting'
 version = '0.0.1-SNAPSHOT'
 
 java {
