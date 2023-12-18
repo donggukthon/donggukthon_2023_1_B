@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -25,5 +27,8 @@ public class Member {
 
     @Column(length = 50, nullable = false)
     private int snowflake;
+
+    @ManyToMany(mappedBy = "members")
+    private List<Group> groups;
 
 }
