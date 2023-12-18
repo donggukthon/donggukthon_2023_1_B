@@ -3,6 +3,7 @@ package flirting.demo.controller;
 import flirting.demo.common.ApiStatus;
 import flirting.demo.common.ResponseData;
 import flirting.demo.common.StatusCode;
+import flirting.demo.dto.InvitationListResponse;
 import flirting.demo.dto.InvitationAcceptRequest;
 import flirting.demo.dto.InvitationAcceptResponse;
 import flirting.demo.dto.InvitationShareRequest;
@@ -15,11 +16,31 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/invitation")
 public class InvitationController {
     private final InvitationService invitationService;
+
+    @GetMapping(value = "/invitation/{memberId}/{groupId}", produces = "application/json")
+    public ResponseEntity<Object> getInvitationList(@PathVariable("memberId") Long memberId, @PathVariable("groupId") Long groupId) {
+        // Todo: member id, group id로 초대장 조회
+        HttpHeaders httpheaders = new HttpHeaders();
+        try {
+            List<Invitation> invitations = invitationService.getInvitationList(memberId);
+            InvitationListResponse homeResponse = new InvitationListResponse(invitations);
+            return new ResponseEntity<>(new ResponseData(
+                    new ApiStatus(StatusCode.OK, "초대장 조회 성공"),
+                    homeResponse
+            ), httpheaders, HttpStatus.OK);
+        }catch (RuntimeException e) {
+            return new ResponseEntity<>(
+                    new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, e.getMessage()),
+                    httpheaders, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @PutMapping(value = "", produces = "application/json")
     public ResponseEntity<ApiStatus> share(@RequestBody InvitationShareRequest invitationShareRequest) {
