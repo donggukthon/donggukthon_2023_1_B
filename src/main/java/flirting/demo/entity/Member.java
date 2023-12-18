@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,6 +30,10 @@ public class Member {
     private int snowflake;
 
     @ManyToMany(mappedBy = "members")
-    private List<Group> groups;
+    private List<Group> groups = new ArrayList<>();
+
+    public void updateSnowflake(int amount) {
+        this.snowflake += amount;
+    }
 
 }

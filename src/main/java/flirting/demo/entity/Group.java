@@ -2,9 +2,11 @@ package flirting.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,5 +28,10 @@ public class Group {
             joinColumns = @JoinColumn(name = "group_id"),
             inverseJoinColumns = @JoinColumn(name = "member_id")
     )
-    private List<Member> members;
+    private List<Member> members = new ArrayList<>();
+
+    @Builder
+    public Group(String name) {
+        this.name = name;
+    }
 }
