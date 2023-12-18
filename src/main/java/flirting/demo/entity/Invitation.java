@@ -1,5 +1,6 @@
 package flirting.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -16,6 +17,7 @@ public class Invitation {
 
     @Column(name = "is_accepted")
     @ColumnDefault("false")
+    @JsonProperty("isAccepted")
     private boolean isAccepted;
 
     @ManyToOne(fetch = FetchType.LAZY)
