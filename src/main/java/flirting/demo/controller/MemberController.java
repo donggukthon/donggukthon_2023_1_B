@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/members")
 public class MemberController {
 
-    @GetMapping
+    @GetMapping("/health")
     private ResponseEntity<ApiStatus> healthCheck() {
         HttpHeaders httpHeaders = new HttpHeaders();
 
