@@ -26,14 +26,19 @@ public class Invitation {
     @JoinColumn(name = "receiver_id", nullable = false)
     private Member receiver;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id", nullable = false)
+    private Group group;
+
     public void updateIsAccepted(boolean isAccepted) {
         this.isAccepted = isAccepted;
     }
 
     @Builder
-    public Invitation(boolean isAccepted, Member sender, Member receiver) {
+    public Invitation(boolean isAccepted, Member sender, Member receiver, Group group) {
         this.isAccepted = isAccepted;
         this.sender = sender;
         this.receiver = receiver;
+        this.group = group;
     }
 }
