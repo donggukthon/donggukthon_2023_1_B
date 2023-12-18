@@ -10,6 +10,11 @@ public enum StatusCode {
 
     OK(HttpStatus.OK, "Y200", "ok"),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"N500", "Internal server error"),
+    // 질문이 7개가 아닐 때
+    QUESTION_CNT_NOT_SEVEN(HttpStatus.INTERNAL_SERVER_ERROR,"N501", "There are not 7 questions"),
+    NO_OTHER_MEMBERS_IN_GROUP(HttpStatus.INTERNAL_SERVER_ERROR, "N502", "There are no other member in group"),
+    MYSELF_IN_OPTIONS(HttpStatus.INTERNAL_SERVER_ERROR, "N503", "There is user in vote options"),
+    NO_SELECTED_QUESTION(HttpStatus.INTERNAL_SERVER_ERROR, "N504", "There is no selected questions")
     ;
 
     private final HttpStatus httpStatus;
