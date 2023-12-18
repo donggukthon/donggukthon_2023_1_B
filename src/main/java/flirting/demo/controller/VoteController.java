@@ -27,10 +27,11 @@ public class VoteController {
                     new ApiStatus(StatusCode.OK, "투표 생성 완료"),
                             httpHeaders, HttpStatus.OK);
 
-        }catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             return new ResponseEntity<>(
                     new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, "투표 생성 실패;"),
                     httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }
