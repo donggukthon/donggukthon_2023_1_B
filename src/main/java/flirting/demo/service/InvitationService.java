@@ -11,6 +11,9 @@ import flirting.demo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class InvitationService {
@@ -48,16 +51,23 @@ public class InvitationService {
             Member member = memberRepository.getReferenceById(receiverId);
             Group group = groupRepository.getReferenceById(groupId);
 
-            // group에 member 추가
-            member.getGroups().add(group);
-            group.getMembers().add(member);
+            // 예외 처리
+            List<Group> alreayExistGroups = groupRepository.getGroupsByMemberId(receiverId);
+            Optional<Group> duplicateGroup = alreayExistGroups.stream().filter(gr -> gr.equals(group)).findAny();
+            if (duplicateGroup.isEmpty()) {
 
-            memberRepository.save(member);
-            groupRepository.save(group);
+                // group에 member 추가
+                member.getGroups().add(group);
+                group.getMembers().add(member);
 
-            Invitation _invitation = invitationRepository.save(invitation);
+                memberRepository.save(member);
+                groupRepository.save(group);
 
-            return _invitation;
+                Invitation _invitation = invitationRepository.save(invitation);
+
+                return _invitation;
+            }else throw new RuntimeException("이미 가입된 그룹입니다.");
+            // Todo: custom runtime exception 만들기
         }
         catch (RuntimeException e) {
             throw new RuntimeException("초대 수락 실패");
