@@ -32,10 +32,6 @@ public class GroupService {
             groupRepository.save(group);
             memberRepository.save(member);
 
-            member.updateSnowflake(+20);
-
-            memberRepository.save(member);
-
             return group;
         }
         catch (RuntimeException e) {
