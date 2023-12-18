@@ -1,10 +1,12 @@
 package flirting.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -19,4 +21,9 @@ public class Question {
 
     @Column(nullable = false)
     private String content;
+
+    @Column(nullable = false)
+    @JsonProperty("isSelected")
+    @ColumnDefault("false")
+    private boolean isSelected;
 }
