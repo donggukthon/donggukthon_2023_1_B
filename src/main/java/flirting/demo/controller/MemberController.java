@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/members")
+@RequestMapping
 public class MemberController {
 
-    @GetMapping("/health")
+    @GetMapping("/")
     private ResponseEntity<ApiStatus> healthCheck() {
         HttpHeaders httpHeaders = new HttpHeaders();
 
