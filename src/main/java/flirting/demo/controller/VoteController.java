@@ -49,8 +49,10 @@ public class VoteController {
         try {
             VoteService.VoteResult voteResult = voteService.getVoteResult(memberId, questionId);
             Question currentQuestion = voteService.getCurrentQuestion(questionId);
+            Integer snowflakes = voteService.getSnowFlakes(memberId);
 
             VoteResultResponse voteResultResponse = VoteResultResponse.builder()
+                    .snowflakes(snowflakes)
                     .question(currentQuestion)
                     .voteResult(voteResult)
                     .build();
