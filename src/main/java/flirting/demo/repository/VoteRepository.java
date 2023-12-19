@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Repository
 public interface VoteRepository extends JpaRepository<Vote, Long> {
@@ -33,5 +34,12 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
     @Query("select count(v) from Vote v where v.group.id = :groupId and v.question.id = :questionId")
     public Long getTotalVoteCnt(@Param("groupId") Long groupId,
                                 @Param("questionId") Long questionId);
+
+    @Query("select v from Vote v where v.selectedMember.id = :memberId " +
+            "and v.voter.id = :selectedMemberId and v.group.id = :groupId and v.question.id = :questionId")
+    public Optional<Vote> getVoteByGuessRequest(@Param("memberId") Long memberId,
+                                                @Param("selectedMemberId") Long selectedMemberId,
+                                                @Param("groupId") Long groupId,
+                                                @Param("questionId") Long questionId);
 
 }

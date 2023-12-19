@@ -2,6 +2,7 @@ package flirting.demo.service;
 
 import flirting.demo.common.CustomException;
 import flirting.demo.common.StatusCode;
+import flirting.demo.dto.VoteGuessRequest;
 import flirting.demo.dto.VoteRequest;
 import flirting.demo.entity.Group;
 import flirting.demo.entity.Member;
@@ -19,6 +20,7 @@ import org.hibernate.internal.log.SubSystemLogging;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -88,6 +90,36 @@ public class VoteService {
         Member member = memberRepository.getReferenceById(memberId);
         return member.getSnowflake();
     }
+
+    public boolean getIsCorrect(VoteGuessRequest voteGuessRequest) {
+        Long memberId = voteGuessRequest.getMemberId();
+        Long selectedMemberId = voteGuessRequest.getSelectedMemberId();
+        Long questionId = voteGuessRequest.getQuestionId();
+        Long groupId = voteGuessRequest.getGroupId();
+
+        Optional<Vote> vote = voteRepository.getVoteByGuessRequest(memberId, selectedMemberId, groupId, questionId);
+
+        if (vote.isEmpty()) {
+            return false;
+        } else if (vote.isPresent()) {
+            return true;
+        }
+        else {
+            throw new CustomException(StatusCode.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public Member updateSnowFlakes(Long memberId) {
+        Member member = memberRepository.getReferenceById(memberId);
+        member.updateSnowflake(-5);
+        Member _member = memberRepository.save(member);
+        return _member;
+    }
+
+    public Member getMemberById(Long memberId) {
+        return memberRepository.getReferenceById(memberId);
+    }
+
 
     @Getter
     public static class VoteRepoResult {
