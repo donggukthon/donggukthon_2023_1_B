@@ -1,7 +1,6 @@
 package flirting.demo.service;
 
 import flirting.demo.dto.InvitationAcceptRequest;
-import flirting.demo.dto.InvitationShareRequest;
 import flirting.demo.entity.Group;
 import flirting.demo.entity.Invitation;
 import flirting.demo.entity.Member;
@@ -33,24 +32,25 @@ public class InvitationService {
         }
     }
 
-    public Member shareInvitation(InvitationShareRequest invitationShareRequest){
-        try {
-            Long memberId = invitationShareRequest.getMemberId();
-            Member member = memberRepository.getReferenceById(memberId);
-            member.updateSnowflake(+20);
-
-            Member _member = memberRepository.save(member);
-            return _member;
-        }
-        catch (RuntimeException e) {
-            throw new RuntimeException("눈송이 증정 실패");
-        }
-    }
+//    public void shareInvitation(InvitationShareRequest invitationShareRequest){
+//        try {
+//            Long memberId = invitationShareRequest.getMemberId();
+//            Member member = memberRepository.getReferenceById(memberId);
+//            member.updateSnowflake(+20);
+//
+//            Member _member = memberRepository.save(member);
+//            return _member;
+//        }
+//        catch (RuntimeException e) {
+//            throw new RuntimeException("눈송이 증정 실패");
+//        }
+//    }
 
     public Invitation acceptInvitation(InvitationAcceptRequest invitationAcceptRequest) {
         try {
             Long receiverId = invitationAcceptRequest.getMemberId();
             Long groupId = invitationAcceptRequest.getGroupId();
+            Long inviterId = invitationAcceptRequest.getInviterId();
             // Todo: groupId, memberId로 조회했을 때 두개 이상이면 예외 처리 로직 추갸
             Invitation invitation = invitationRepository.getInvitationByReceiverAndGroup(receiverId, groupId)
                     .orElseThrow(() -> new RuntimeException("조건에 맞는 초대장이 없습니다."));
@@ -62,6 +62,11 @@ public class InvitationService {
 
             Member member = memberRepository.getReferenceById(receiverId);
             Group group = groupRepository.getReferenceById(groupId);
+
+            Member inviter = memberRepository.getReferenceById(inviterId);
+            inviter.updateSnowflake(+20);
+
+            memberRepository.save(inviter);
 
             // 예외 처리
             List<Group> alreayExistGroups = groupRepository.getGroupsByMemberId(receiverId);
