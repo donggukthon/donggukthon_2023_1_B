@@ -1,24 +1,27 @@
 package flirting.demo.controller;
 
 import flirting.demo.common.ApiStatus;
+import flirting.demo.common.ResponseData;
 import flirting.demo.common.StatusCode;
 import flirting.demo.dto.VoteRequest;
+import flirting.demo.dto.VoteResultResponse;
+import flirting.demo.entity.Question;
 import flirting.demo.entity.Vote;
 import flirting.demo.service.VoteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(value = "/vote")
 public class VoteController {
     private final VoteService voteService;
 
-    @PostMapping(value = "/vote", produces = "application/json")
+    @PostMapping(value = "", produces = "application/json")
     public ResponseEntity<ApiStatus> save(@RequestBody VoteRequest voteRequest){
         HttpHeaders httpHeaders = new HttpHeaders();
         try {
@@ -29,9 +32,38 @@ public class VoteController {
 
         } catch (RuntimeException e) {
             return new ResponseEntity<>(
-                    new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, "투표 생성 실패;"),
+                    new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, "투표 생성 실패"),
                     httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping(value = "/result/{memberId}/{questionId}")
+    public ResponseEntity<Object> getResult(@PathVariable("memberId") Long memberId,
+                                            @PathVariable("questionId") Long questionId){
+        HttpHeaders httpHeaders = new HttpHeaders();
+        try {
+            VoteService.VoteResult voteResult = voteService.getVoteResult(memberId, questionId);
+            Question currentQuestion = voteService.getCurrentQuestion(questionId);
+
+            VoteResultResponse voteResultResponse = VoteResultResponse.builder()
+                    .question(currentQuestion)
+                    .voteResult(voteResult)
+                    .build();
+
+            return new ResponseEntity<>(
+                    new ResponseData(
+                            new ApiStatus(StatusCode.OK, "투표 결과 조회 성공"),
+                            voteResultResponse
+                    ),
+                    httpHeaders, HttpStatus.OK
+            );
+        }catch (RuntimeException e) {
+            // Todo: CustomException 반환하는 걸로 수정
+            return new ResponseEntity<>(
+                    new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, e.getMessage()),
+                    httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 
 }

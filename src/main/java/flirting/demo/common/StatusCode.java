@@ -14,7 +14,8 @@ public enum StatusCode {
     QUESTION_CNT_NOT_SEVEN(HttpStatus.INTERNAL_SERVER_ERROR,"N501", "There are not 7 questions"),
     NO_OTHER_MEMBERS_IN_GROUP(HttpStatus.INTERNAL_SERVER_ERROR, "N502", "There are no other member in group"),
     MYSELF_IN_OPTIONS(HttpStatus.INTERNAL_SERVER_ERROR, "N503", "There is user in vote options"),
-    NO_SELECTED_QUESTION(HttpStatus.INTERNAL_SERVER_ERROR, "N504", "There is no selected questions")
+    NO_SELECTED_QUESTION(HttpStatus.INTERNAL_SERVER_ERROR, "N504", "There is no selected questions"),
+    NO_SELECTED_VOTE(HttpStatus.INTERNAL_SERVER_ERROR, "N505", "There is no votes selected by question")
     ;
 
     private final HttpStatus httpStatus;
