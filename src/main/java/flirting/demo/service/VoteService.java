@@ -69,12 +69,12 @@ public class VoteService {
 
         // 내가 속한 그룹에 있는 모든 사람들 조회
         List<Member> options = memberRepository.getAllMembersExceptMe(memberId, groupId);
-        // 그룹에 멤버가 나 혼자
-        if (options.size() == 0) {
-            throw new CustomException(StatusCode.NO_OTHER_MEMBERS_IN_GROUP);
-        }
+        // 그룹에 멤버가 나 혼자 -> 제거하고 멤버 수 반환
+//        if (options.size() == 0) {
+//            throw new CustomException(StatusCode.NO_OTHER_MEMBERS_IN_GROUP);
+//        }
         // 자기 자신 제외하고 주기
-        else if (options.stream().filter(op -> op.getId() == memberId).findAny().isPresent()) {
+        if (options.stream().filter(op -> op.getId() == memberId).findAny().isPresent()) {
             throw new CustomException(StatusCode.MYSELF_IN_OPTIONS);
         }
         return options;
@@ -95,6 +95,10 @@ public class VoteService {
             this.name = name;
             this.cnt = Integer.parseInt(Long.toString(cnt));
         }
+    }
+
+    public Long getMemberCnt(Long groupId) {
+        return memberRepository.getMemberCnt(groupId);
     }
 
     @Getter
