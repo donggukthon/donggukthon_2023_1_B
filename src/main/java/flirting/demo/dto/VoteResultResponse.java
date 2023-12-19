@@ -7,6 +7,7 @@ import lombok.Getter;
 
 @Getter
 public class VoteResultResponse {
+    Integer snowflakes;
     Long questionId;
     String question;
     String mostVoted;
@@ -15,7 +16,8 @@ public class VoteResultResponse {
     Integer myVoteCnt;
 
     @Builder
-    public VoteResultResponse(Question question, VoteService.VoteResult voteResult) {
+    public VoteResultResponse(Integer snowflakes, Question question, VoteService.VoteResult voteResult) {
+        this.snowflakes = snowflakes;
         this.questionId = question.getId();
         this.question = question.getContent();
         this.mostVoted = voteResult.getMostVoted();
