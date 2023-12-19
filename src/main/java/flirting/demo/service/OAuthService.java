@@ -1,12 +1,15 @@
 package flirting.demo.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import flirting.demo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -40,21 +43,30 @@ public class OAuthService {
         return new RedirectView(url);
     }
 
-    public ResponseEntity<String> getGoogleAccessToken(String accessToken) {
+    public String getGoogleAccessToken(String accessCode) {
         RestTemplate restTemplate = new RestTemplate();
-        Map<String, String> params = new HashMap<>();
-        System.out.println(GOOGLE_REDIRECT_URL);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        params.put("code", accessToken);
-        params.put("client_id", GOOGLE_CLIENT_ID);
-        params.put("client_secret", GOOGLE_CLIENT_SECRET);
-        params.put("redirect_uri", GOOGLE_REDIRECT_URL);
-        params.put("grant_type", "authorization_code");
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("code", accessCode);
+        params.add("client_id", GOOGLE_CLIENT_ID);
+        params.add("client_secret", GOOGLE_CLIENT_SECRET);
+        params.add("redirect_uri", GOOGLE_REDIRECT_URL);
+        params.add("grant_type", "authorization_code");
 
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(GOOGLE_TOKEN_URL, params, String.class);
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
+        ResponseEntity<String> response = restTemplate.postForEntity(GOOGLE_TOKEN_URL, request, String.class);
 
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            return responseEntity;
+        if (response.getStatusCode() == HttpStatus.OK) {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                JsonNode rootNode = mapper.readTree(response.getBody());
+                String idToken = rootNode.path("id_token").asText();
+                return idToken; // id_token 반환
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         return null;
