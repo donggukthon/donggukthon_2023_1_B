@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,9 +24,21 @@ public class OAuthService {
     private String GOOGLE_CLIENT_SECRET;
     @Value("${oauth2.google.redirect-uri}")
     private String GOOGLE_REDIRECT_URL;
+    @Value("${oauth2.google.scope}")
+    private String scope;
+
+    private String baseUrl = "https://accounts.google.com/o/oauth2/v2/auth";
 
     @Autowired
     private final MemberRepository memberRepository;
+
+    public RedirectView redirectToGoogle() {
+        String url = baseUrl + "?client_id=" + GOOGLE_CLIENT_ID +
+                "&response_type=code" +
+                "&redirect_uri=" + GOOGLE_REDIRECT_URL +
+                "&scope=" + scope;
+        return new RedirectView(url);
+    }
 
     public ResponseEntity<String> getGoogleAccessToken(String accessToken) {
         RestTemplate restTemplate = new RestTemplate();

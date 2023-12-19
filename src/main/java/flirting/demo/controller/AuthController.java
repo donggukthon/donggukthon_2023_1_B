@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @AllArgsConstructor
@@ -18,4 +19,10 @@ public class AuthController {
     public ResponseEntity<String> successGoogleLogin(@RequestParam("code") String accessCode) {
         return oAuthService.getGoogleAccessToken(accessCode);
     }
+
+    @GetMapping("/login")
+    public RedirectView redirectToGoogle() {
+        return oAuthService.redirectToGoogle();
+    }
+
 }
