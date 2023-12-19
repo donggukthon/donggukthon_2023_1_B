@@ -81,7 +81,7 @@ public class VoteController {
         HttpHeaders httpHeaders = new HttpHeaders();
         try {
             Question question = voteService.getCurrentQuestion(questionId);
-            List<Member> options = voteService.getOptionList(memberId);
+            List<Member> options = voteService.getOptionList(memberId, groupId);
             Integer snowflakes = voteService.getSnowFlakes(memberId);
 
             VoteGuessDataResponse voteGuessDataResponse = VoteGuessDataResponse.builder()

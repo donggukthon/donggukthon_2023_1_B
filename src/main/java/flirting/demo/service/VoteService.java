@@ -65,10 +65,10 @@ public class VoteService {
     }
 
     // Todo: 중복 제거
-    public List<Member> getOptionList(Long memberId) {
+    public List<Member> getOptionList(Long memberId, Long groupId) {
 
         // 내가 속한 그룹에 있는 모든 사람들 조회
-        List<Member> options = memberRepository.getAllMembersExceptMe(memberId);
+        List<Member> options = memberRepository.getAllMembersExceptMe(memberId, groupId);
         // 그룹에 멤버가 나 혼자
         if (options.size() == 0) {
             throw new CustomException(StatusCode.NO_OTHER_MEMBERS_IN_GROUP);
