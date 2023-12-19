@@ -42,7 +42,7 @@ public class VoteController {
         }
     }
 
-    @GetMapping(value = "/result/{memberId}/{questionId}")
+    @GetMapping(value = "/result/{memberId}/{groupId}/{questionId}")
     public ResponseEntity<Object> getResult(@PathVariable("memberId") Long memberId,
                                             @PathVariable("groupId") Long groupId,
                                             @PathVariable("questionId") Long questionId){
@@ -74,7 +74,7 @@ public class VoteController {
 
     }
 
-    @GetMapping(value = "/guess/{memberId}/{questionId}", produces = "application/json")
+    @GetMapping(value = "/guess/{memberId}/{groupId}/{questionId}", produces = "application/json")
     public ResponseEntity<Object> getGuessData(@PathVariable("memberId") Long memberId,
                                                @PathVariable("groupId") Long groupId,
                                                @PathVariable("questionId") Long questionId){
