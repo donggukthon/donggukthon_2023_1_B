@@ -16,8 +16,10 @@ public class AuthController {
 
     private final OAuthService oAuthService;
     @GetMapping("/callback/google")
-    public ResponseEntity<String> successGoogleLogin(@RequestParam("code") String accessCode) {
-        return oAuthService.getGoogleAccessToken(accessCode);
+    public RedirectView successGoogleLogin(@RequestParam("code") String accessCode) {
+        String userToken = oAuthService.getGoogleAccessToken(accessCode);
+        String redirectUrl = "http://localhost:3000/googleLogin?token=" + userToken;
+        return new RedirectView(redirectUrl);
     }
 
     @GetMapping("/login")
