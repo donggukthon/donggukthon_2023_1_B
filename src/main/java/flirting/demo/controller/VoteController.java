@@ -83,10 +83,12 @@ public class VoteController {
             Question question = voteService.getCurrentQuestion(questionId);
             List<Member> options = voteService.getOptionList(memberId, groupId);
             Integer snowflakes = voteService.getSnowFlakes(memberId);
+            Long memberCnt = voteService.getMemberCnt(groupId);
 
             VoteGuessDataResponse voteGuessDataResponse = VoteGuessDataResponse.builder()
                     .snowflakes(snowflakes)
                     .question(question)
+                    .memberCnt(memberCnt)
                     .members(options)
                     .build();
 
