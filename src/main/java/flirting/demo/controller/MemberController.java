@@ -15,14 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping
 public class MemberController {
 
-    @GetMapping("/")
+    @GetMapping("/health")
     private ResponseEntity<ApiStatus> healthCheck() {
         HttpHeaders httpHeaders = new HttpHeaders();
 
         return new ResponseEntity<>(
                 new ApiStatus(StatusCode.OK, "요청 확인"),
                 httpHeaders, HttpStatus.OK);
-
     }
 
 }
