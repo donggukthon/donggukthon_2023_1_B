@@ -43,6 +43,7 @@ FLIRTING 사용해보기 👉🏻 ////
 <img src="https://img.shields.io/badge/React Router-CA4245?style=for-the-badge&logo=React Router&logoColor=white"/>
 <img src="https://img.shields.io/badge/Javascript-F7DF1E?style=for-the-badge&logo=Javascript&logoColor=black"/>
 <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=Vercel&logoColor=white">
+<img src="https://img.shields.io/badge/react query 3.39.3-FF4154?style=for-the-badge&logo=reactquery&logoColor=white">
 </div>
 
 ### Back-end
