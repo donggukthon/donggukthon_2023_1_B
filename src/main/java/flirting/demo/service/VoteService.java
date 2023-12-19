@@ -60,6 +60,27 @@ public class VoteService {
         return questionRepository.getReferenceById(questionId);
     }
 
+    // Todo: 중복 제거
+    public List<Member> getOptionList(Long memberId) {
+
+        // 내가 속한 그룹에 있는 모든 사람들 조회
+        List<Member> options = memberRepository.getAllMembersExceptMe(memberId);
+        // 그룹에 멤버가 나 혼자
+        if (options.size() == 0) {
+            throw new CustomException(StatusCode.NO_OTHER_MEMBERS_IN_GROUP);
+        }
+        // 자기 자신 제외하고 주기
+        else if (options.stream().filter(op -> op.getId() == memberId).findAny().isPresent()) {
+            throw new CustomException(StatusCode.MYSELF_IN_OPTIONS);
+        }
+        return options;
+    }
+
+    public Integer getSnowFlakes(Long memberId){
+        Member member = memberRepository.getReferenceById(memberId);
+        return member.getSnowflake();
+    }
+
     @Getter
     public static class VoteRepoResult {
         String name;
