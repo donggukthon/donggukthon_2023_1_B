@@ -48,4 +48,12 @@ public class QuestionService {
     public Question getCurrentQuestion(Long questionId) {
         return questionRepository.getReferenceById(questionId);
     }
+
+    public List<Question> getQuestionList() {
+        List<Question> questions = questionRepository.getSelectedQuestion();
+        if (questions.size() != 7) {
+            throw new CustomException(StatusCode.QUESTION_CNT_NOT_SEVEN);
+        }
+        return questions;
+    }
 }
