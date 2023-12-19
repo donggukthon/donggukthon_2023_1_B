@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class HomeResponse {
+public class InvitationListResponse {
     private List<InvitationData> invitationList = new ArrayList<>();
 
     @Builder
-    public HomeResponse (List<Invitation> invitations) {
+    public InvitationListResponse(List<Invitation> invitations) {
         invitations.forEach(invitation -> {
             this.invitationList.add(InvitationData.builder()
                             .inviterId(invitation.getId())

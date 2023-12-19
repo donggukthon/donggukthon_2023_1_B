@@ -22,7 +22,6 @@ public class MemberController {
         return new ResponseEntity<>(
                 new ApiStatus(StatusCode.OK, "요청 확인"),
                 httpHeaders, HttpStatus.OK);
-
     }
 
 }

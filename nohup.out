@@ -1,0 +1,159 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.1.6)
+
+2023-12-18T13:29:28.270Z  INFO 29226 --- [           main] flirting.demo.DemoApplication            : Starting DemoApplication v0.0.1-SNAPSHOT using Java 17.0.9 with PID 29226 (/home/ubuntu/donggukthon_2023_1_B/build/libs/demo-0.0.1-SNAPSHOT.jar started by ubuntu in /home/ubuntu/donggukthon_2023_1_B)
+2023-12-18T13:29:28.280Z  INFO 29226 --- [           main] flirting.demo.DemoApplication            : No active profile set, falling back to 1 default profile: "default"
+2023-12-18T13:29:29.515Z  INFO 29226 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-12-18T13:29:29.617Z  INFO 29226 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 87 ms. Found 5 JPA repository interfaces.
+2023-12-18T13:29:30.481Z  INFO 29226 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-12-18T13:29:30.493Z  INFO 29226 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-12-18T13:29:30.494Z  INFO 29226 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2023-12-18T13:29:30.597Z  INFO 29226 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-12-18T13:29:30.599Z  INFO 29226 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2206 ms
+2023-12-18T13:29:30.848Z  INFO 29226 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-12-18T13:29:30.920Z  INFO 29226 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.13.Final
+2023-12-18T13:29:30.924Z  INFO 29226 --- [           main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2023-12-18T13:29:31.283Z  INFO 29226 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-12-18T13:29:31.314Z  INFO 29226 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-12-18T13:29:31.775Z  INFO 29226 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@20921b9b
+2023-12-18T13:29:31.778Z  INFO 29226 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-12-18T13:29:31.861Z  WARN 29226 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2023-12-18T13:29:31.862Z  WARN 29226 --- [           main] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2023-12-18T13:29:33.126Z  INFO 29226 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2023-12-18T13:29:33.520Z  INFO 29226 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-12-18T13:29:33.864Z  INFO 29226 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2023-12-18T13:29:34.805Z  WARN 29226 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-12-18T13:29:35.267Z  WARN 29226 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2023-12-18T13:29:35.270Z  INFO 29226 --- [           main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-12-18T13:29:35.275Z  INFO 29226 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-12-18T13:29:35.289Z  INFO 29226 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-12-18T13:29:35.291Z  INFO 29226 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2023-12-18T13:29:35.317Z  INFO 29226 --- [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2023-12-18T13:29:35.344Z ERROR 29226 --- [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.1.6)
+
+2023-12-18T13:29:41.045Z  INFO 29257 --- [           main] flirting.demo.DemoApplication            : Starting DemoApplication v0.0.1-SNAPSHOT using Java 17.0.9 with PID 29257 (/home/ubuntu/donggukthon_2023_1_B/build/libs/demo-0.0.1-SNAPSHOT.jar started by ubuntu in /home/ubuntu/donggukthon_2023_1_B)
+2023-12-18T13:29:41.050Z  INFO 29257 --- [           main] flirting.demo.DemoApplication            : No active profile set, falling back to 1 default profile: "default"
+2023-12-18T13:29:42.290Z  INFO 29257 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-12-18T13:29:42.417Z  INFO 29257 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 116 ms. Found 5 JPA repository interfaces.
+2023-12-18T13:29:43.338Z  INFO 29257 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-12-18T13:29:43.354Z  INFO 29257 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-12-18T13:29:43.354Z  INFO 29257 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2023-12-18T13:29:43.471Z  INFO 29257 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-12-18T13:29:43.473Z  INFO 29257 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2289 ms
+2023-12-18T13:29:43.709Z  INFO 29257 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-12-18T13:29:43.784Z  INFO 29257 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.13.Final
+2023-12-18T13:29:43.787Z  INFO 29257 --- [           main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2023-12-18T13:29:44.148Z  INFO 29257 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-12-18T13:29:44.182Z  INFO 29257 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-12-18T13:29:44.584Z  INFO 29257 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@14a54ef6
+2023-12-18T13:29:44.587Z  INFO 29257 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-12-18T13:29:44.669Z  WARN 29257 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2023-12-18T13:29:44.670Z  WARN 29257 --- [           main] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2023-12-18T13:29:45.947Z  INFO 29257 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2023-12-18T13:29:46.355Z  INFO 29257 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-12-18T13:29:46.730Z  INFO 29257 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2023-12-18T13:29:47.692Z  WARN 29257 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-12-18T13:29:48.190Z  WARN 29257 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2023-12-18T13:29:48.192Z  INFO 29257 --- [           main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-12-18T13:29:48.196Z  INFO 29257 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-12-18T13:29:48.210Z  INFO 29257 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-12-18T13:29:48.212Z  INFO 29257 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2023-12-18T13:29:48.240Z  INFO 29257 --- [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2023-12-18T13:29:48.267Z ERROR 29257 --- [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.1.6)
+
+2023-12-18T13:31:06.159Z  INFO 29292 --- [           main] flirting.demo.DemoApplication            : Starting DemoApplication v0.0.1-SNAPSHOT using Java 17.0.9 with PID 29292 (/home/ubuntu/donggukthon_2023_1_B/build/libs/demo-0.0.1-SNAPSHOT.jar started by ubuntu in /home/ubuntu/donggukthon_2023_1_B)
+2023-12-18T13:31:06.162Z  INFO 29292 --- [           main] flirting.demo.DemoApplication            : No active profile set, falling back to 1 default profile: "default"
+2023-12-18T13:31:07.438Z  INFO 29292 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-12-18T13:31:07.568Z  INFO 29292 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 118 ms. Found 5 JPA repository interfaces.
+2023-12-18T13:31:08.506Z  INFO 29292 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2023-12-18T13:31:08.521Z  INFO 29292 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-12-18T13:31:08.522Z  INFO 29292 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2023-12-18T13:31:08.641Z  INFO 29292 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-12-18T13:31:08.644Z  INFO 29292 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2326 ms
+2023-12-18T13:31:08.880Z  INFO 29292 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-12-18T13:31:08.942Z  INFO 29292 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.2.13.Final
+2023-12-18T13:31:08.946Z  INFO 29292 --- [           main] org.hibernate.cfg.Environment            : HHH000406: Using bytecode reflection optimizer
+2023-12-18T13:31:09.305Z  INFO 29292 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2023-12-18T13:31:09.338Z  INFO 29292 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-12-18T13:31:09.741Z  INFO 29292 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@20921b9b
+2023-12-18T13:31:09.745Z  INFO 29292 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-12-18T13:31:09.806Z  WARN 29292 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2023-12-18T13:31:09.807Z  WARN 29292 --- [           main] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2023-12-18T13:31:11.123Z  INFO 29292 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2023-12-18T13:31:11.508Z  INFO 29292 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-12-18T13:31:11.867Z  INFO 29292 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2023-12-18T13:31:12.771Z  WARN 29292 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-12-18T13:31:13.239Z  WARN 29292 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2023-12-18T13:31:13.243Z  INFO 29292 --- [           main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2023-12-18T13:31:13.248Z  INFO 29292 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2023-12-18T13:31:13.271Z  INFO 29292 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-12-18T13:31:13.274Z  INFO 29292 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2023-12-18T13:31:13.301Z  INFO 29292 --- [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2023-12-18T13:31:13.326Z ERROR 29292 --- [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
