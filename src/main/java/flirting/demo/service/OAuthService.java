@@ -16,12 +16,12 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class OAuthService {
-    private final String GOOGLE_TOKEN_URL = "http://oauth2.googleapis.com/token";
-    @Value("{oauth2.google.client-id}")
+    private final String GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
+    @Value("${oauth2.google.client-id}")
     private String GOOGLE_CLIENT_ID;
-    @Value("{oauth2.google.client-secret}")
+    @Value("${oauth2.google.client-secret}")
     private String GOOGLE_CLIENT_SECRET;
-    @Value("{oauth2.google.redirect-uri}")
+    @Value("${oauth2.google.redirect-uri}")
     private String GOOGLE_REDIRECT_URL;
 
     @Autowired
