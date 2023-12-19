@@ -51,6 +51,7 @@ public class InvitationService {
         try {
             Long receiverId = invitationAcceptRequest.getMemberId();
             Long groupId = invitationAcceptRequest.getGroupId();
+            Long inviterId = invitationAcceptRequest.getInviterId();
             // Todo: groupId, memberId로 조회했을 때 두개 이상이면 예외 처리 로직 추갸
             Invitation invitation = invitationRepository.getInvitationByReceiverAndGroup(receiverId, groupId)
                     .orElseThrow(() -> new RuntimeException("조건에 맞는 초대장이 없습니다."));
@@ -62,6 +63,11 @@ public class InvitationService {
 
             Member member = memberRepository.getReferenceById(receiverId);
             Group group = groupRepository.getReferenceById(groupId);
+
+            Member inviter = memberRepository.getReferenceById(inviterId);
+            inviter.updateSnowflake(+20);
+
+            memberRepository.save(inviter);
 
             // 예외 처리
             List<Group> alreayExistGroups = groupRepository.getGroupsByMemberId(receiverId);

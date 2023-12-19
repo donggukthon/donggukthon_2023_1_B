@@ -9,11 +9,13 @@ import lombok.NoArgsConstructor;
 public class InvitationAcceptRequest {
     Long memberId;
     Long groupId;
+    Long inviterId;
 
     @Builder
-    public InvitationAcceptRequest(Long memberId, Long groupId) {
+    public InvitationAcceptRequest(Long memberId, Long groupId, Long inviterId) {
         this.memberId = memberId;
         this.groupId = groupId;
+        this.inviterId = inviterId;
     }
 
 }
