@@ -6,9 +6,7 @@ import flirting.demo.common.StatusCode;
 import flirting.demo.dto.InvitationListResponse;
 import flirting.demo.dto.InvitationAcceptRequest;
 import flirting.demo.dto.InvitationAcceptResponse;
-import flirting.demo.dto.InvitationShareRequest;
 import flirting.demo.entity.Invitation;
-import flirting.demo.entity.Member;
 import flirting.demo.service.InvitationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -42,23 +40,23 @@ public class InvitationController {
         }
     }
 
-    @PutMapping(value = "", produces = "application/json")
-    public ResponseEntity<ApiStatus> share(@RequestBody InvitationShareRequest invitationShareRequest) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        try {
-            Member member = invitationService.shareInvitation(invitationShareRequest);
-
-            return new ResponseEntity<>(
-                    new ApiStatus(StatusCode.OK, "눈송이 증정 성공"),
-                    httpHeaders, HttpStatus.OK
-            );
-        }catch (RuntimeException e) {
-            return new ResponseEntity<>(
-                    new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, e.getMessage()),
-                    httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR
-            );
-        }
-    }
+//    @PutMapping(value = "", produces = "application/json")
+//    public ResponseEntity<ApiStatus> share(@RequestBody InvitationShareRequest invitationShareRequest) {
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        try {
+//            invitationService.shareInvitation(invitationShareRequest);
+//
+//            return new ResponseEntity<>(
+//                    new ApiStatus(StatusCode.OK, "초대링크 공유"),
+//                    httpHeaders, HttpStatus.OK
+//            );
+//        }catch (RuntimeException e) {
+//            return new ResponseEntity<>(
+//                    new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, e.getMessage()),
+//                    httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR
+//            );
+//        }
+//    }
 
     @PostMapping(value = "", produces = "application/json")
     public ResponseEntity<Object> accept(@RequestBody InvitationAcceptRequest invitationAcceptRequest){
