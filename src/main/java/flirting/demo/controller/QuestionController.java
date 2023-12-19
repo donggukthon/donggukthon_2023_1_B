@@ -5,6 +5,7 @@ import flirting.demo.common.CustomException;
 import flirting.demo.common.ResponseData;
 import flirting.demo.common.StatusCode;
 import flirting.demo.dto.QuestionDataResponse;
+import flirting.demo.dto.QuestionListResponse;
 import flirting.demo.entity.Member;
 import flirting.demo.entity.Question;
 import flirting.demo.repository.QuestionRepository;
@@ -23,10 +24,10 @@ import java.util.Optional;
 @RequestMapping(value = "/question")
 public class QuestionController {
     private final QuestionService questionService;
-    // Todo: 사용해도 되는 패턴인지 조사 -> 안됨. 비동기 실행되는 듯. 왜그런지 조사
+    // Todo: 사용해도 되는 패턴인지 조사 -> 안됨. 비동기 실행되는 듯. 왜그런지 조사 (repository - service)
 
     @GetMapping(value = "/{memberId}/{groupId}/{questionId}", produces = "application/json")
-    public ResponseEntity<Object> getQuestionList(@PathVariable Long memberId,
+    public ResponseEntity<Object> getQuestion(@PathVariable Long memberId,
                                                   @PathVariable Long groupId,
                                                   @PathVariable Long questionId) {
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -64,6 +65,25 @@ public class QuestionController {
         } catch (RuntimeException e) {
             return new ResponseEntity<>(
                     new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, "투표 질문 조회 실패"),
+                    httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    @GetMapping(value = "", produces = "application/json")
+    public ResponseEntity<Object> getQuestionList(){
+        HttpHeaders httpHeaders = new HttpHeaders();
+        try {
+            List<Question> questions = questionService.getQuestionList();
+            QuestionListResponse questionListResponse = new QuestionListResponse(questions);
+            return new ResponseEntity<>(
+                    new ResponseData(new ApiStatus(StatusCode.OK, "질문 목록 조회 성공"),
+                    questionListResponse),
+                    httpHeaders, HttpStatus.OK
+            );
+        }catch (RuntimeException e) {
+            return new ResponseEntity<>(
+                    new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, e.getMessage()),
                     httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
