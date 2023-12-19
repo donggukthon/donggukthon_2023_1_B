@@ -44,10 +44,11 @@ public class VoteController {
 
     @GetMapping(value = "/result/{memberId}/{questionId}")
     public ResponseEntity<Object> getResult(@PathVariable("memberId") Long memberId,
+                                            @PathVariable("groupId") Long groupId,
                                             @PathVariable("questionId") Long questionId){
         HttpHeaders httpHeaders = new HttpHeaders();
         try {
-            VoteService.VoteResult voteResult = voteService.getVoteResult(memberId, questionId);
+            VoteService.VoteResult voteResult = voteService.getVoteResult(memberId, groupId, questionId);
             Question currentQuestion = voteService.getCurrentQuestion(questionId);
             Integer snowflakes = voteService.getSnowFlakes(memberId);
 
@@ -75,6 +76,7 @@ public class VoteController {
 
     @GetMapping(value = "/guess/{memberId}/{questionId}", produces = "application/json")
     public ResponseEntity<Object> getGuessData(@PathVariable("memberId") Long memberId,
+                                               @PathVariable("groupId") Long groupId,
                                                @PathVariable("questionId") Long questionId){
         HttpHeaders httpHeaders = new HttpHeaders();
         try {

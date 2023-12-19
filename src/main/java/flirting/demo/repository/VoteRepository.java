@@ -19,15 +19,15 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
 
     // Todo: vote repo result 사용하는걸로 수정
     @Query("select count(v) " +
-            "from Vote v where v.selectedMember.id = :memberId and v.question.id = :questionId group by v.selectedMember.id order by count(v) desc")
-    public Long getMostVotedCnt(@Param("memberId") Long memberId, @Param("questionId") Long questionId);
+            "from Vote v where v.group.id = :groupId and v.selectedMember.id = :memberId and v.question.id = :questionId group by v.selectedMember.id order by count(v) desc")
+    public Long getMostVotedCnt(@Param("memberId") Long memberId, @Param("groupId") Long groupId, @Param("questionId") Long questionId);
 
     @Query("select v.selectedMember " +
-            "from Vote v where v.question.id = :questionId group by v.selectedMember.id order by count(v) desc")
-    public List<Member> getMostVoted(@Param("questionId") Long questionId);
+            "from Vote v where v.group.id = :groupId and v.question.id = :questionId group by v.selectedMember.id order by count(v) desc")
+    public List<Member> getMostVoted(@Param("groupId") Long groupId, @Param("questionId") Long questionId);
 
-    @Query("select count(v) from Vote v where v.selectedMember.id = :memberId and v.question.id = :questionId")
-    public Long getMyVotes(@Param("memberId") Long memberId,
+    @Query("select count(v) from Vote v where v.group.id = :groupId and v.selectedMember.id = :memberId and v.question.id = :questionId")
+    public Long getMyVotes(@Param("memberId") Long memberId, @Param("groupId") Long groupId,
                                                  @Param("questionId") Long questionId);
 
 }
