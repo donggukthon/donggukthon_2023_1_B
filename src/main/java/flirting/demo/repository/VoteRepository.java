@@ -30,4 +30,8 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
     public Long getMyVotes(@Param("memberId") Long memberId, @Param("groupId") Long groupId,
                                                  @Param("questionId") Long questionId);
 
+    @Query("select count(v) from Vote v where v.group.id = :groupId and v.question.id = :questionId")
+    public Long getTotalVoteCnt(@Param("groupId") Long groupId,
+                                @Param("questionId") Long questionId);
+
 }
