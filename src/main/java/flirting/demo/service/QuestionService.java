@@ -56,4 +56,8 @@ public class QuestionService {
         }
         return questions;
     }
+
+    public Long getMemberCnt(Long groupId) {
+        return memberRepository.getMemberCnt(groupId);
+    }
 }
