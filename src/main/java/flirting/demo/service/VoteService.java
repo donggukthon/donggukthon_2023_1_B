@@ -3,9 +3,11 @@ package flirting.demo.service;
 import flirting.demo.common.CustomException;
 import flirting.demo.common.StatusCode;
 import flirting.demo.dto.VoteRequest;
+import flirting.demo.entity.Group;
 import flirting.demo.entity.Member;
 import flirting.demo.entity.Question;
 import flirting.demo.entity.Vote;
+import flirting.demo.repository.GroupRepository;
 import flirting.demo.repository.MemberRepository;
 import flirting.demo.repository.QuestionRepository;
 import flirting.demo.repository.VoteRepository;
@@ -24,26 +26,28 @@ public class VoteService {
     private final VoteRepository voteRepository;
     private final QuestionRepository questionRepository;
     private final MemberRepository memberRepository;
+    private final GroupRepository groupRepository;
 
     public Vote createVote(VoteRequest voteRequest){
         Question question = questionRepository.getReferenceById(voteRequest.getQuestionId());
         Member voter = memberRepository.getReferenceById(voteRequest.getVoterId());
         Member selectedMember = memberRepository.getReferenceById(voteRequest.getSelectedMemberId());
+        Group group = groupRepository.getReferenceById(voteRequest.getGroupId());
 
-        Vote vote = voteRequest.toEntity(question, voter, selectedMember);
+        Vote vote = voteRequest.toEntity(question, voter, selectedMember, group);
 
         Vote _vote = voteRepository.save(vote);
 
         return _vote;
     }
 
-    public VoteResult getVoteResult(Long memberId, Long questionId) {
-        List<Member> voters = voteRepository.getMostVoted(questionId);
+    public VoteResult getVoteResult(Long memberId, Long groupId, Long questionId) {
+        List<Member> voters = voteRepository.getMostVoted(groupId, questionId);
         Member mostVoted = voters.stream().findFirst().orElseThrow(() -> new CustomException(StatusCode.NO_SELECTED_VOTE));
 
-        Long mostVotedCnt = voteRepository.getMostVotedCnt(mostVoted.getId(), questionId);
+        Long mostVotedCnt = voteRepository.getMostVotedCnt(mostVoted.getId(), groupId, questionId);
 
-        Long myVoteCnt = voteRepository.getMyVotes(memberId, questionId);
+        Long myVoteCnt = voteRepository.getMyVotes(memberId, groupId, questionId);
         // VoteRepoResult myVoteResult = myVoteResults.stream().findFirst().orElseThrow(() -> new CustomException(StatusCode.NO_SELECTED_VOTE));
         Member currentMember = memberRepository.getReferenceById(memberId);
 
@@ -61,10 +65,10 @@ public class VoteService {
     }
 
     // Todo: 중복 제거
-    public List<Member> getOptionList(Long memberId) {
+    public List<Member> getOptionList(Long memberId, Long groupId) {
 
         // 내가 속한 그룹에 있는 모든 사람들 조회
-        List<Member> options = memberRepository.getAllMembersExceptMe(memberId);
+        List<Member> options = memberRepository.getAllMembersExceptMe(memberId, groupId);
         // 그룹에 멤버가 나 혼자
         if (options.size() == 0) {
             throw new CustomException(StatusCode.NO_OTHER_MEMBERS_IN_GROUP);

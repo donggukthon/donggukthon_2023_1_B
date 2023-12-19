@@ -42,12 +42,13 @@ public class VoteController {
         }
     }
 
-    @GetMapping(value = "/result/{memberId}/{questionId}")
+    @GetMapping(value = "/result/{memberId}/{groupId}/{questionId}")
     public ResponseEntity<Object> getResult(@PathVariable("memberId") Long memberId,
+                                            @PathVariable("groupId") Long groupId,
                                             @PathVariable("questionId") Long questionId){
         HttpHeaders httpHeaders = new HttpHeaders();
         try {
-            VoteService.VoteResult voteResult = voteService.getVoteResult(memberId, questionId);
+            VoteService.VoteResult voteResult = voteService.getVoteResult(memberId, groupId, questionId);
             Question currentQuestion = voteService.getCurrentQuestion(questionId);
             Integer snowflakes = voteService.getSnowFlakes(memberId);
 
@@ -73,13 +74,14 @@ public class VoteController {
 
     }
 
-    @GetMapping(value = "/guess/{memberId}/{questionId}", produces = "application/json")
+    @GetMapping(value = "/guess/{memberId}/{groupId}/{questionId}", produces = "application/json")
     public ResponseEntity<Object> getGuessData(@PathVariable("memberId") Long memberId,
+                                               @PathVariable("groupId") Long groupId,
                                                @PathVariable("questionId") Long questionId){
         HttpHeaders httpHeaders = new HttpHeaders();
         try {
             Question question = voteService.getCurrentQuestion(questionId);
-            List<Member> options = voteService.getOptionList(memberId);
+            List<Member> options = voteService.getOptionList(memberId, groupId);
             Integer snowflakes = voteService.getSnowFlakes(memberId);
 
             VoteGuessDataResponse voteGuessDataResponse = VoteGuessDataResponse.builder()
