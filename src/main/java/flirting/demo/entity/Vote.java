@@ -24,10 +24,15 @@ public class Vote {
     @JoinColumn(name = "selected_member_id", nullable = false)
     private Member selectedMember;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id", nullable = false)
+    private Group group;
+
     @Builder
-    public Vote(Question question, Member voter, Member selectedMember){
+    public Vote(Question question, Member voter, Member selectedMember, Group group){
         this.question = question;
         this.voter = voter;
         this.selectedMember = selectedMember;
+        this.group = group;
     }
 }
