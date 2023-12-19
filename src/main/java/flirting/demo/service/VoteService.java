@@ -43,7 +43,7 @@ public class VoteService {
 
     public VoteResult getVoteResult(Long memberId, Long groupId, Long questionId) {
         List<Member> voters = voteRepository.getMostVoted(groupId, questionId);
-        Member mostVoted = voters.stream().findFirst().orElseThrow(() -> new CustomException(StatusCode.NO_SELECTED_VOTE));
+        Member mostVoted = voters.stream().findFirst().get();
 
         Long mostVotedCnt = voteRepository.getMostVotedCnt(mostVoted.getId(), groupId, questionId);
 
@@ -58,6 +58,10 @@ public class VoteService {
                 .myVoteCnt(Integer.parseInt(Long.toString(myVoteCnt)))
                 .build();
 
+    }
+
+    public Long getTotalVoteCnt(Long groupId, Long questionId) {
+        return voteRepository.getTotalVoteCnt(groupId, questionId);
     }
 
     public Question getCurrentQuestion(Long questionId) {
