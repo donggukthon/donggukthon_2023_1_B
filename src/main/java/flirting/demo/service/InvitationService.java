@@ -20,16 +20,29 @@ public class InvitationService {
     private final InvitationRepository invitationRepository;
     private final GroupRepository groupRepository;
 
-    public List<Invitation> getInvitationList(Long receiverId) {
+    public Invitation createInvitation(Long inviterId, Long receiverId, Long groupId) {
         try {
             // Todo: get memer id -> invitation 생성 후 저장 ...
             // Todo: 동일 member id, group id인 멤버 이미 존재하면 오류 반환
-            List<Invitation> invitations = invitationRepository.getInvitationsByReceiverId(receiverId);
-            return invitations;
+
+            Group group = groupRepository.getReferenceById(groupId);
+            Member inviter = memberRepository.getReferenceById(inviterId);
+            Member receiver = memberRepository.getReferenceById(receiverId);
+
+            Invitation invitation = Invitation.builder()
+                    .sender(inviter)
+                    .receiver(receiver)
+                    .group(group)
+                    .build();
+            return invitation;
         }
         catch (RuntimeException e) {
             throw new RuntimeException("사용자의 초대장을 조회할 수 없습니다.");
         }
+    }
+
+    public Long getMemberCnt(Long groupId) {
+        return  memberRepository.getMemberCnt(groupId);
     }
 
 //    public void shareInvitation(InvitationShareRequest invitationShareRequest){
