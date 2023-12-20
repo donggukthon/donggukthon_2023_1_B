@@ -11,6 +11,7 @@ import flirting.demo.entity.Member;
 import flirting.demo.repository.MemberRepository;
 import io.jsonwebtoken.impl.Base64UrlCodec;
 import io.jsonwebtoken.io.Decoders;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,5 +134,9 @@ public class OAuthService {
                     memberRepository.save(newMember);
                 }
         );
+    }
+    public Member findMemberByOauthId(String oauthId) {
+        return memberRepository.findByOauthId(oauthId)
+                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
     }
 }
