@@ -1,5 +1,6 @@
 package flirting.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import flirting.demo.entity.Member;
 import lombok.Builder;
@@ -12,6 +13,11 @@ public class VoteGuessResponse {
     String member;
     String selectedMember;
     Integer snowflakes;
+
+    @JsonIgnore
+    public boolean isIsCorrect() {
+        return this.isCorrect;
+    }
 
     @Builder
     public VoteGuessResponse(boolean isCorrect, Member member, Member selectedMember, Integer snowflakes) {
