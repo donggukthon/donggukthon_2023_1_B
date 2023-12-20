@@ -1,5 +1,6 @@
 package flirting.demo.common;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ public enum StatusCode {
     SNOWFLAKE_NOT_ENOUGH(HttpStatus.INTERNAL_SERVER_ERROR, "N506", "There is no enough snowflakes")
     ;
 
+    @JsonIgnore
     private final HttpStatus httpStatus;
     private final String statusCode;
     private final String statusMessage;
