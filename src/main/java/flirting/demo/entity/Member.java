@@ -34,7 +34,7 @@ public class Member {
     private String oauthId;
 
     @Column(length = 50, nullable = false)
-    private int snowflake;
+    private int snowflake = 40;
 
     @ManyToMany(mappedBy = "members")
     private List<Group> groups = new ArrayList<>();
