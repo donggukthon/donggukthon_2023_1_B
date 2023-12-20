@@ -22,30 +22,26 @@ public class InvitationService {
     private final GroupRepository groupRepository;
 
     public Invitation createInvitation(Long inviterId, Long groupId) {
-        try {
             // Todo: get memer id -> invitation 생성 후 저장 ...
             // Todo: 동일 member id, group id인 멤버 이미 존재하면 오류 반환
             Group group = groupRepository.getReferenceById(groupId);
             Member inviter = memberRepository.getReferenceById(inviterId);
-
+            System.out.println("get group and inviter");
             Invitation invitation = Invitation.builder()
                     .sender(inviter)
                     .group(group)
                     .build();
+            System.out.println("build invitation");
+//            Invitation _invitation = invitationRepository.save(invitation);
+            System.out.println("save invitation");
+            return invitation;
 
-            Invitation _invitation = invitationRepository.save(invitation);
-            return _invitation;
-        }
-        catch (RuntimeException e) {
-            throw new RuntimeException("사용자의 초대장을 조회할 수 없습니다.");
-        }
     }
     public Long getMemberCnt(Long groupId) {
         return  memberRepository.getMemberCnt(groupId);
     }
 
     public InvitationAcceptResponse acceptInvitation(InvitationAcceptRequest invitationAcceptRequest) {
-        try {
             Long receiverId = invitationAcceptRequest.getMemberId();
             Long groupId = invitationAcceptRequest.getGroupId();
             Long inviterId = invitationAcceptRequest.getInviterId();
@@ -86,9 +82,6 @@ public class InvitationService {
                 return _invitation;
             }else throw new RuntimeException("이미 가입된 그룹입니다.");
             // Todo: custom runtime exception 만들기
-        }
-        catch (RuntimeException e) {
-            throw new RuntimeException("초대 수락 실패");
-        }
+
     }
 }
