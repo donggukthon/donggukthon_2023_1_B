@@ -14,14 +14,16 @@ public class VoteGuessDataResponse {
     Integer snowflakes;
     Long questionId;
     String question;
+    Long memberCnt;
     List<OptionData> optionList;
 
     @Builder
-    public VoteGuessDataResponse(Integer snowflakes, Question question, List<Member> members) {
+    public VoteGuessDataResponse(Integer snowflakes, Question question, List<Member> members, Long memberCnt) {
 //        System.out.println("question: "+ question.getId() + " " + question.getContent());
         this.snowflakes = snowflakes;
         this.questionId = question.getId();
         this.question = question.getContent();
+        this.memberCnt = memberCnt;
         this.optionList = members.stream().map(member -> OptionData.builder().member(member).build()).toList();
     }
 

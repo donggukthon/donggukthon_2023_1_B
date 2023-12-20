@@ -1,8 +1,11 @@
 package flirting.demo.controller;
 
 import flirting.demo.common.ApiStatus;
+import flirting.demo.common.CustomException;
 import flirting.demo.common.ResponseData;
 import flirting.demo.common.StatusCode;
+import flirting.demo.dto.VoteGuessRequest;
+import flirting.demo.dto.VoteGuessResponse;
 import flirting.demo.dto.response.VoteGuessDataResponse;
 import flirting.demo.dto.request.VoteRequest;
 import flirting.demo.dto.response.VoteResultResponse;
@@ -40,17 +43,20 @@ public class VoteController {
         }
     }
 
-    @GetMapping(value = "/result/{memberId}/{questionId}")
+    @GetMapping(value = "/result/{memberId}/{groupId}/{questionId}")
     public ResponseEntity<Object> getResult(@PathVariable("memberId") Long memberId,
+                                            @PathVariable("groupId") Long groupId,
                                             @PathVariable("questionId") Long questionId){
         HttpHeaders httpHeaders = new HttpHeaders();
         try {
-            VoteService.VoteResult voteResult = voteService.getVoteResult(memberId, questionId);
+            VoteService.VoteResult voteResult = voteService.getVoteResult(memberId, groupId, questionId);
             Question currentQuestion = voteService.getCurrentQuestion(questionId);
             Integer snowflakes = voteService.getSnowFlakes(memberId);
+            Long totalVoteCnt = voteService.getTotalVoteCnt(groupId, questionId);
 
             VoteResultResponse voteResultResponse = VoteResultResponse.builder()
                     .snowflakes(snowflakes)
+                    .totalVoteCnt(totalVoteCnt)
                     .question(currentQuestion)
                     .voteResult(voteResult)
                     .build();
@@ -71,18 +77,21 @@ public class VoteController {
 
     }
 
-    @GetMapping(value = "/guess/{memberId}/{questionId}", produces = "application/json")
+    @GetMapping(value = "/guess/{memberId}/{groupId}/{questionId}", produces = "application/json")
     public ResponseEntity<Object> getGuessData(@PathVariable("memberId") Long memberId,
+                                               @PathVariable("groupId") Long groupId,
                                                @PathVariable("questionId") Long questionId){
         HttpHeaders httpHeaders = new HttpHeaders();
         try {
             Question question = voteService.getCurrentQuestion(questionId);
-            List<Member> options = voteService.getOptionList(memberId);
+            List<Member> options = voteService.getOptionList(memberId, groupId);
             Integer snowflakes = voteService.getSnowFlakes(memberId);
+            Long memberCnt = voteService.getMemberCnt(groupId);
 
             VoteGuessDataResponse voteGuessDataResponse = VoteGuessDataResponse.builder()
                     .snowflakes(snowflakes)
                     .question(question)
+                    .memberCnt(memberCnt)
                     .members(options)
                     .build();
 
@@ -102,4 +111,36 @@ public class VoteController {
         }
     }
 
+    @PutMapping(value = "/guess", produces = "application/json")
+    public ResponseEntity<Object> guess(@RequestBody VoteGuessRequest voteGuessRequest) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        try {
+            Long memberId = voteGuessRequest.getMemberId();
+            Long selecteMemberId = voteGuessRequest.getSelectedMemberId();
+            boolean isCorrect = voteService.getIsCorrect(voteGuessRequest);
+
+            Member _member = voteService.updateSnowFlakes(memberId);
+            Member selectedMember = voteService.getMemberById(selecteMemberId);
+
+            VoteGuessResponse voteGuessResponse = VoteGuessResponse.builder()
+                    .member(_member)
+                    .selectedMember(selectedMember)
+                    .isCorrect(isCorrect)
+                    .snowflakes(_member.getSnowflake())
+                    .build();
+
+            return new ResponseEntity<>(
+                    new ResponseData(
+                            new ApiStatus(StatusCode.OK, "투표 맞추기 시도"),
+                            voteGuessResponse
+                    ), httpHeaders, HttpStatus.OK
+            );
+
+        }catch (CustomException e) {
+            return new ResponseEntity<>(
+                    new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, e.getMessage()),
+                    httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
 }

@@ -45,11 +45,13 @@ public class QuestionController {
         try {
             Question question = questionService.getCurrentQuestion(_questionId);
             List<Member> options = questionService.getOptionList(memberId, groupId);
+            Long memberCnt = questionService.getMemberCnt(groupId);
 
             QuestionDataResponse questionDataResponse = QuestionDataResponse.builder()
                     .questionIdList(questionIdList)
                     .question(question)
                     .members(options)
+                    .memberCnt(memberCnt)
                     .build();
 
 
