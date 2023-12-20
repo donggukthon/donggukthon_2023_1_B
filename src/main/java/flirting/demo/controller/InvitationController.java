@@ -6,7 +6,6 @@ import flirting.demo.common.StatusCode;
 import flirting.demo.dto.response.InvitationListResponse;
 import flirting.demo.dto.request.InvitationAcceptRequest;
 import flirting.demo.dto.response.InvitationAcceptResponse;
-import flirting.demo.dto.request.InvitationShareRequest;
 import flirting.demo.entity.Invitation;
 import flirting.demo.entity.Member;
 import flirting.demo.service.InvitationService;
@@ -39,24 +38,6 @@ public class InvitationController {
             return new ResponseEntity<>(
                     new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, e.getMessage()),
                     httpheaders, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PutMapping(value = "", produces = "application/json")
-    public ResponseEntity<ApiStatus> share(@RequestBody InvitationShareRequest invitationShareRequest) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        try {
-            Member member = invitationService.shareInvitation(invitationShareRequest);
-
-            return new ResponseEntity<>(
-                    new ApiStatus(StatusCode.OK, "눈송이 증정 성공"),
-                    httpHeaders, HttpStatus.OK
-            );
-        }catch (RuntimeException e) {
-            return new ResponseEntity<>(
-                    new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, e.getMessage()),
-                    httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR
-            );
         }
     }
 

@@ -1,7 +1,6 @@
 package flirting.demo.service;
 
 import flirting.demo.dto.request.InvitationAcceptRequest;
-import flirting.demo.dto.request.InvitationShareRequest;
 import flirting.demo.entity.Group;
 import flirting.demo.entity.Invitation;
 import flirting.demo.entity.Member;
@@ -30,20 +29,6 @@ public class InvitationService {
         }
         catch (RuntimeException e) {
             throw new RuntimeException("사용자의 초대장을 조회할 수 없습니다.");
-        }
-    }
-
-    public Member shareInvitation(InvitationShareRequest invitationShareRequest){
-        try {
-            Long memberId = invitationShareRequest.getMemberId();
-            Member member = memberRepository.getReferenceById(memberId);
-            member.updateSnowflake(+20);
-
-            Member _member = memberRepository.save(member);
-            return _member;
-        }
-        catch (RuntimeException e) {
-            throw new RuntimeException("눈송이 증정 실패");
         }
     }
 
