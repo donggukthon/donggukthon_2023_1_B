@@ -28,7 +28,6 @@ public class InvitationController {
         // Todo: member id, group id로 초대장 조회
 
         HttpHeaders httpheaders = new HttpHeaders();
-        try {
             Invitation invitation = invitationService.createInvitation(inviterId, groupId);
             Long memberCnt = invitationService.getMemberCnt(groupId);
             InvitationResponse invitationResponse = InvitationResponse.builder()
@@ -43,17 +42,12 @@ public class InvitationController {
                     ),
                     httpheaders, HttpStatus.OK
             );
-        }catch (RuntimeException e) {
-            return new ResponseEntity<>(
-                    new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, e.getMessage()),
-                    httpheaders, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
     }
 
     @PostMapping(value = "", produces = "application/json")
     public ResponseEntity<Object> accept(@RequestBody InvitationAcceptRequest invitationAcceptRequest){
         HttpHeaders httpHeaders = new HttpHeaders();
-        try {
             InvitationAcceptResponse invitation = invitationService.acceptInvitation(invitationAcceptRequest);
             return new ResponseEntity<>(
                     new ResponseData(
@@ -62,11 +56,6 @@ public class InvitationController {
                     ),
                     httpHeaders, HttpStatus.OK
             );
-        }catch (RuntimeException e) {
-            return new ResponseEntity<>(
-                    new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, e.getMessage()),
-                    httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR
-            );
-        }
+
     }
 }
