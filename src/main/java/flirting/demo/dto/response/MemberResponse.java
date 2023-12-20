@@ -20,7 +20,6 @@ public class MemberResponse {
 
     @Builder
     public MemberResponse(String oauthId, String username, String email) {
-
         this.oauthId = oauthId;
         this.username = username;
         this.email = email;

@@ -21,12 +21,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/invitation")
 public class InvitationController {
     private final InvitationService invitationService;
-    private final OAuthService oAuthService;
 
+    /**
+     * member id, group id로 초대장 조회하는 메서드
+     * @param inviterId
+     * @param groupId
+     * @return
+     */
     @GetMapping(value = "/{inviterId}/{groupId}", produces = "application/json")
     public ResponseEntity<Object> getInvitationList(@PathVariable("inviterId") Long inviterId, @PathVariable("groupId") Long groupId) {
-        // Todo: member id, group id로 초대장 조회
-
         HttpHeaders httpheaders = new HttpHeaders();
             Invitation invitation = invitationService.createInvitation(inviterId, groupId);
             Long memberCnt = invitationService.getMemberCnt(groupId);
@@ -42,7 +45,6 @@ public class InvitationController {
                     ),
                     httpheaders, HttpStatus.OK
             );
-
     }
 
     @PostMapping(value = "", produces = "application/json")

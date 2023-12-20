@@ -25,16 +25,7 @@ public class MemberController {
     public ResponseEntity hello() {
         return ResponseEntity.ok("배포 자동화");
     }
-
-    @GetMapping("/health")
-    private ResponseEntity<ApiStatus> healthCheck() {
-        HttpHeaders httpHeaders = new HttpHeaders();
-
-        return new ResponseEntity<>(
-                new ApiStatus(StatusCode.OK, "요청 확인"),
-                httpHeaders, HttpStatus.OK);
-    }
-
+    
     @GetMapping(value = "/setting/{memberId}", produces = "application/json")
     private ResponseEntity<Object> getSetting(@PathVariable("memberId") Long memberId){
         HttpHeaders httpHeaders = new HttpHeaders();

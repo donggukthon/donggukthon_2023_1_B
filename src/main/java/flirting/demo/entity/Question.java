@@ -14,6 +14,7 @@ import org.hibernate.annotations.ColumnDefault;
 @AllArgsConstructor
 @Table(name = "question")
 public class Question {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_id", unique = true, nullable = false)

@@ -16,6 +16,7 @@ public interface InvitationRepository extends JpaRepository<Invitation, Long> {
 
     @Query("select i from Invitation i where i.receiver.id = :receiverId " +
             "and i.group.id = :groupId")
-    public Optional<Invitation> getInvitationByReceiverAndGroup(@Param("receiverId") Long receiverId,
-                                                                @Param("groupId") Long groupId);
+    public Optional<Invitation> getInvitationByReceiverAndGroup(
+            @Param("receiverId") Long receiverId,
+            @Param("groupId") Long groupId);
 }

@@ -31,14 +31,6 @@ public class QuestionService {
     public List<Member> getOptionList(Long memberId, Long groupId) {
 
         List<Member> options = memberRepository.getGroupMembersExceptMe(memberId, groupId);
-        // 그룹에 멤버가 나 혼자 -> 제거하고 그룹 멤버 수 반환
-//        if (options.size() == 0) {
-//            throw new CustomException(StatusCode.NO_OTHER_MEMBERS_IN_GROUP);
-//        }
-//        // 자기 자신 제외하고 주기
-//        else if (options.stream().filter(op -> op.getId() == memberId).findAny().isPresent()) {
-//            throw new CustomException(StatusCode.MYSELF_IN_OPTIONS);
-//        }
         return options;
     }
 

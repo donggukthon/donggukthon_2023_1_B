@@ -22,8 +22,8 @@ import java.util.Optional;
 @RequestMapping(value = "/question")
 public class QuestionController {
     private final QuestionService questionService;
-    // Todo: 사용해도 되는 패턴인지 조사 -> 안됨. 비동기 실행되는 듯. 왜그런지 조사 (repository - service)
 
+    // Todo: 사용해도 되는 패턴인지 조사 -> 안됨. 비동기 실행되는 듯. 왜그런지 조사 (repository - service)
     @GetMapping(value = "/{memberId}/{groupId}/{questionId}", produces = "application/json")
     public ResponseEntity<Object> getQuestion(@PathVariable Long memberId,
                                                   @PathVariable Long groupId,

@@ -124,11 +124,9 @@ public class OAuthService {
     private void processMember(Optional<Member> member, MemberResponse dto) {
         member.ifPresentOrElse(
                 existingMember -> {
-                    // 이미 존재하는 멤버에 대한 처리
                     System.out.println("멤버가 이미 존재합니다: " + existingMember);
                 },
                 () -> {
-                    // 새 멤버 저장
                     Member newMember = dto.toEntity();
                     System.out.println("새 멤버 저장됨: " + newMember);
                     memberRepository.save(newMember);
