@@ -38,8 +38,9 @@ public class AuthController {
     }
 
     @GetMapping("/decode")
-    public ResponseEntity<?> jwtDecode(@RequestParam("token") String token) {
+    public ResponseEntity<?> jwtDecode(@RequestHeader(value = "Authorization") String authorizationHeader) {
         try {
+            String token = authorizationHeader.substring("Bearer ".length());
             HttpHeaders httpHeaders = new HttpHeaders();
             MemberResponse memberInfo = oAuthService.decodeToken(token);
             Member member = oAuthService.findMemberByOauthId(memberInfo.getOauthId());
