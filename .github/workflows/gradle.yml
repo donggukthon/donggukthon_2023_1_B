@@ -23,8 +23,9 @@ jobs:
       - uses: actions/checkout@v3
       - name: Create application.yml from secret
         run: |
-          mkdir -p ./src/main/resources/
-          echo "${{ secrets.APPLICATION_YML }}" > ./src/main/resources/application.yml
+          mkdir -p src/main/resources
+          echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > src/main/resources/application.yml
+          find src
 
       - uses: actions/checkout@v3
       - name: Set up JDK 17
