@@ -30,7 +30,7 @@ jobs:
       - name: "application.yml 설정"
         run: |
           mkdir -p src/main/resources
-          run: echo "${{ secrets.APPLICATION_YML }}" > ./src/main/resources/application.yml
+          echo "${{ secrets.APPLICATION_YML }}" > ./src/main/resources/application.yml
 
       - name: Build with Gradle
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
