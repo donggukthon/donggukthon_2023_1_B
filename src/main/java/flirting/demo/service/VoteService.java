@@ -95,12 +95,18 @@ public class VoteService {
         Long questionId = voteGuessRequest.getQuestionId();
         Long groupId = voteGuessRequest.getGroupId();
 
+        Member member = memberRepository.getReferenceById(memberId);
+
+        if (member.getSnowflake() < 10){
+            throw new CustomException(StatusCode.SNOWFLAKE_NOT_ENOUGH);
+        }
+
+
         Optional<Vote> vote = voteRepository.getVoteByGuessRequest(memberId, selectedMemberId, groupId, questionId);
 
         if (vote.isEmpty()) {
             return false;
         } else if (vote.isPresent()) {
-            Member member = memberRepository.getReferenceById(memberId);
             member.updateSnowflake(+15);
             memberRepository.save(member);
             return true;
