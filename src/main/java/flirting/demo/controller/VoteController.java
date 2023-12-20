@@ -1,6 +1,7 @@
 package flirting.demo.controller;
 
 import flirting.demo.common.ApiStatus;
+import flirting.demo.common.CustomException;
 import flirting.demo.common.ResponseData;
 import flirting.demo.common.StatusCode;
 import flirting.demo.dto.*;
@@ -132,7 +133,7 @@ public class VoteController {
                     ), httpHeaders, HttpStatus.OK
             );
 
-        }catch (RuntimeException e) {
+        }catch (CustomException e) {
             return new ResponseEntity<>(
                     new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, e.getMessage()),
                     httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR

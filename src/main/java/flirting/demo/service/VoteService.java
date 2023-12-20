@@ -114,6 +114,9 @@ public class VoteService {
 
     public Member updateSnowFlakes(Long memberId) {
         Member member = memberRepository.getReferenceById(memberId);
+        if (member.getSnowflake() < 10){
+            throw new CustomException(StatusCode.SNOWFLAKE_NOT_ENOUGH);
+        }
         member.updateSnowflake(-10);
         Member _member = memberRepository.save(member);
         return _member;
