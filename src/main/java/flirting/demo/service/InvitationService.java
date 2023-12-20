@@ -1,7 +1,7 @@
 package flirting.demo.service;
 
-import flirting.demo.dto.InvitationAcceptRequest;
-import flirting.demo.dto.InvitationShareRequest;
+import flirting.demo.dto.request.InvitationAcceptRequest;
+import flirting.demo.dto.request.InvitationShareRequest;
 import flirting.demo.entity.Group;
 import flirting.demo.entity.Invitation;
 import flirting.demo.entity.Member;
