@@ -102,6 +102,9 @@ public class VoteService {
         if (vote.isEmpty()) {
             return false;
         } else if (vote.isPresent()) {
+            Member member = memberRepository.getReferenceById(memberId);
+            member.updateSnowflake(+15);
+            memberRepository.save(member);
             return true;
         }
         else {
@@ -111,7 +114,7 @@ public class VoteService {
 
     public Member updateSnowFlakes(Long memberId) {
         Member member = memberRepository.getReferenceById(memberId);
-        member.updateSnowflake(-5);
+        member.updateSnowflake(-10);
         Member _member = memberRepository.save(member);
         return _member;
     }
