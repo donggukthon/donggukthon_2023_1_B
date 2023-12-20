@@ -23,7 +23,7 @@ public class MemberController {
 
     @GetMapping("/")
     public ResponseEntity hello() {
-        return ResponseEntity.ok("eroom 배포 자동화 테스트");
+        return ResponseEntity.ok("배포 자동화");
     }
 
     @GetMapping("/health")
