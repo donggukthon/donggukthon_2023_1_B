@@ -23,7 +23,7 @@ import java.util.List;
 public class InvitationController {
     private final InvitationService invitationService;
 
-    @GetMapping(value = "/invitation/{memberId}/{groupId}", produces = "application/json")
+    @GetMapping(value = "/{memberId}/{groupId}", produces = "application/json")
     public ResponseEntity<Object> getInvitationList(@PathVariable("memberId") Long memberId, @PathVariable("groupId") Long groupId) {
         // Todo: member id, group id로 초대장 조회
         HttpHeaders httpheaders = new HttpHeaders();
