@@ -14,13 +14,12 @@ public class MemberResponse {
 
     @JsonProperty("sub")
     private String oauthId;
-
     @JsonProperty("name")
     private String username;
     private String email;
 
     @Builder
-    public MemberResponse(String sub, String username, String picture) {
+    public MemberResponse(String oauthId, String username, String email) {
 
         this.oauthId = oauthId;
         this.username = username;

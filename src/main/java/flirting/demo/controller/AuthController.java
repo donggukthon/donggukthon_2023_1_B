@@ -4,9 +4,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import flirting.demo.common.ApiStatus;
+import flirting.demo.common.ResponseData;
+import flirting.demo.common.StatusCode;
+import flirting.demo.dto.response.MemberInfoResponse;
 import flirting.demo.dto.response.MemberResponse;
+import flirting.demo.entity.Member;
 import flirting.demo.service.OAuthService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,10 +40,22 @@ public class AuthController {
     @GetMapping("/decode")
     public ResponseEntity<?> jwtDecode(@RequestParam("token") String token) {
         try {
-            System.out.println("token = " + token);
+            HttpHeaders httpHeaders = new HttpHeaders();
             MemberResponse memberInfo = oAuthService.decodeToken(token);
-            return ResponseEntity.ok(memberInfo);
+            Member member = oAuthService.findMemberByOauthId(memberInfo.getOauthId());
+
+            MemberInfoResponse memberInfoResponse = new MemberInfoResponse();
+            memberInfoResponse.setMemberResponse(memberInfo);
+            memberInfoResponse.setMemberId(member.getId());
+            memberInfoResponse.setSnowflake(member.getSnowflake());
+
+            return new ResponseEntity<>(new ResponseData(
+                    new ApiStatus(StatusCode.OK, "유저 조회 성공"),
+                    memberInfoResponse
+            ), httpHeaders, HttpStatus.OK);
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Token decoding failed");
-        }    }
+        }
+    }
 }

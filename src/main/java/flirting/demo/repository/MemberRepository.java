@@ -29,4 +29,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("select count(m) from Member m join m.groups g where g.id = :groupId")
     public Long getMemberCnt(@Param("groupId") Long groupId);
+
+    @Query("select m.snowflake from Member m  where m.oauthId = :oauthId")
+    public int getSnowflakeByOauthId(String oauthId);
 }
