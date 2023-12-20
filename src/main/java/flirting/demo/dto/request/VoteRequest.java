@@ -1,4 +1,4 @@
-package flirting.demo.dto;
+package flirting.demo.dto.request;
 
 import flirting.demo.entity.Group;
 import flirting.demo.entity.Member;

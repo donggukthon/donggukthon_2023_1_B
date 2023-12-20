@@ -3,10 +3,12 @@ package flirting.demo.controller;
 import flirting.demo.common.ApiStatus;
 import flirting.demo.common.ResponseData;
 import flirting.demo.common.StatusCode;
-import flirting.demo.dto.InvitationResponse;
-import flirting.demo.dto.InvitationAcceptRequest;
-import flirting.demo.dto.InvitationAcceptResponse;
+import flirting.demo.dto.response.InvitationListResponse;
+import flirting.demo.dto.request.InvitationAcceptRequest;
+import flirting.demo.dto.response.InvitationAcceptResponse;
+import flirting.demo.dto.request.InvitationShareRequest;
 import flirting.demo.entity.Invitation;
+import flirting.demo.entity.Member;
 import flirting.demo.service.InvitationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -22,26 +24,17 @@ import java.util.List;
 public class InvitationController {
     private final InvitationService invitationService;
 
-    @GetMapping(value = "/{inviterId}/{groupId}", produces = "application/json")
-    public ResponseEntity<Object> getInvitationList(@PathVariable("inviterId") Long inviterId, @PathVariable("groupId") Long groupId) {
+    @GetMapping(value = "/invitation/{memberId}/{groupId}", produces = "application/json")
+    public ResponseEntity<Object> getInvitationList(@PathVariable("memberId") Long memberId, @PathVariable("groupId") Long groupId) {
         // Todo: member id, group id로 초대장 조회
-        Long receiverId = 1L;
         HttpHeaders httpheaders = new HttpHeaders();
         try {
-            Invitation invitation = invitationService.createInvitation(inviterId, receiverId, groupId);
-            Long memberCnt = invitationService.getMemberCnt(groupId);
-            InvitationResponse invitationResponse = InvitationResponse.builder()
-                    .invitation(invitation)
-                    .memberCnt(memberCnt)
-                    .build();
-
-            return new ResponseEntity<>(
-                    new ResponseData(
-                            new ApiStatus(StatusCode.OK, "초대장 조회 성공"),
-                            invitationResponse
-                    ),
-                    httpheaders, HttpStatus.OK
-            );
+            List<Invitation> invitations = invitationService.getInvitationList(memberId);
+            InvitationListResponse homeResponse = new InvitationListResponse(invitations);
+            return new ResponseEntity<>(new ResponseData(
+                    new ApiStatus(StatusCode.OK, "초대장 조회 성공"),
+                    homeResponse
+            ), httpheaders, HttpStatus.OK);
         }catch (RuntimeException e) {
             return new ResponseEntity<>(
                     new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, e.getMessage()),
@@ -49,23 +42,23 @@ public class InvitationController {
         }
     }
 
-//    @PutMapping(value = "", produces = "application/json")
-//    public ResponseEntity<ApiStatus> share(@RequestBody InvitationShareRequest invitationShareRequest) {
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        try {
-//            invitationService.shareInvitation(invitationShareRequest);
-//
-//            return new ResponseEntity<>(
-//                    new ApiStatus(StatusCode.OK, "초대링크 공유"),
-//                    httpHeaders, HttpStatus.OK
-//            );
-//        }catch (RuntimeException e) {
-//            return new ResponseEntity<>(
-//                    new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, e.getMessage()),
-//                    httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR
-//            );
-//        }
-//    }
+    @PutMapping(value = "", produces = "application/json")
+    public ResponseEntity<ApiStatus> share(@RequestBody InvitationShareRequest invitationShareRequest) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        try {
+            Member member = invitationService.shareInvitation(invitationShareRequest);
+
+            return new ResponseEntity<>(
+                    new ApiStatus(StatusCode.OK, "눈송이 증정 성공"),
+                    httpHeaders, HttpStatus.OK
+            );
+        }catch (RuntimeException e) {
+            return new ResponseEntity<>(
+                    new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, e.getMessage()),
+                    httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
 
     @PostMapping(value = "", produces = "application/json")
     public ResponseEntity<Object> accept(@RequestBody InvitationAcceptRequest invitationAcceptRequest){

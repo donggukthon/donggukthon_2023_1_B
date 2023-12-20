@@ -1,6 +1,7 @@
 package flirting.demo.service;
 
-import flirting.demo.dto.InvitationAcceptRequest;
+import flirting.demo.dto.request.InvitationAcceptRequest;
+import flirting.demo.dto.request.InvitationShareRequest;
 import flirting.demo.entity.Group;
 import flirting.demo.entity.Invitation;
 import flirting.demo.entity.Member;
@@ -20,50 +21,36 @@ public class InvitationService {
     private final InvitationRepository invitationRepository;
     private final GroupRepository groupRepository;
 
-    public Invitation createInvitation(Long inviterId, Long receiverId, Long groupId) {
+    public List<Invitation> getInvitationList(Long receiverId) {
         try {
             // Todo: get memer id -> invitation 생성 후 저장 ...
             // Todo: 동일 member id, group id인 멤버 이미 존재하면 오류 반환
-
-            Group group = groupRepository.getReferenceById(groupId);
-            Member inviter = memberRepository.getReferenceById(inviterId);
-            Member receiver = memberRepository.getReferenceById(receiverId);
-
-            Invitation invitation = Invitation.builder()
-                    .sender(inviter)
-                    .receiver(receiver)
-                    .group(group)
-                    .build();
-            return invitation;
+            List<Invitation> invitations = invitationRepository.getInvitationsByReceiverId(receiverId);
+            return invitations;
         }
         catch (RuntimeException e) {
             throw new RuntimeException("사용자의 초대장을 조회할 수 없습니다.");
         }
     }
 
-    public Long getMemberCnt(Long groupId) {
-        return  memberRepository.getMemberCnt(groupId);
-    }
+    public Member shareInvitation(InvitationShareRequest invitationShareRequest){
+        try {
+            Long memberId = invitationShareRequest.getMemberId();
+            Member member = memberRepository.getReferenceById(memberId);
+            member.updateSnowflake(+20);
 
-//    public void shareInvitation(InvitationShareRequest invitationShareRequest){
-//        try {
-//            Long memberId = invitationShareRequest.getMemberId();
-//            Member member = memberRepository.getReferenceById(memberId);
-//            member.updateSnowflake(+20);
-//
-//            Member _member = memberRepository.save(member);
-//            return _member;
-//        }
-//        catch (RuntimeException e) {
-//            throw new RuntimeException("눈송이 증정 실패");
-//        }
-//    }
+            Member _member = memberRepository.save(member);
+            return _member;
+        }
+        catch (RuntimeException e) {
+            throw new RuntimeException("눈송이 증정 실패");
+        }
+    }
 
     public Invitation acceptInvitation(InvitationAcceptRequest invitationAcceptRequest) {
         try {
             Long receiverId = invitationAcceptRequest.getMemberId();
             Long groupId = invitationAcceptRequest.getGroupId();
-            Long inviterId = invitationAcceptRequest.getInviterId();
             // Todo: groupId, memberId로 조회했을 때 두개 이상이면 예외 처리 로직 추갸
             Invitation invitation = invitationRepository.getInvitationByReceiverAndGroup(receiverId, groupId)
                     .orElseThrow(() -> new RuntimeException("조건에 맞는 초대장이 없습니다."));
@@ -75,11 +62,6 @@ public class InvitationService {
 
             Member member = memberRepository.getReferenceById(receiverId);
             Group group = groupRepository.getReferenceById(groupId);
-
-            Member inviter = memberRepository.getReferenceById(inviterId);
-            inviter.updateSnowflake(+20);
-
-            memberRepository.save(inviter);
 
             // 예외 처리
             List<Group> alreayExistGroups = groupRepository.getGroupsByMemberId(receiverId);

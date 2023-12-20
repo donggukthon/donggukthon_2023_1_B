@@ -1,12 +1,15 @@
 package flirting.demo.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import flirting.demo.dto.response.MemberResponse;
 import flirting.demo.service.OAuthService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
@@ -15,6 +18,7 @@ import org.springframework.web.servlet.view.RedirectView;
 public class AuthController {
 
     private final OAuthService oAuthService;
+
     @GetMapping("/callback/google")
     public RedirectView successGoogleLogin(@RequestParam("code") String accessCode) {
         String userToken = oAuthService.getGoogleAccessToken(accessCode);
@@ -27,4 +31,13 @@ public class AuthController {
         return oAuthService.redirectToGoogle();
     }
 
+    @GetMapping("/decode")
+    public ResponseEntity<?> jwtDecode(@RequestParam("token") String token) {
+        try {
+            System.out.println("token = " + token);
+            MemberResponse memberInfo = oAuthService.decodeToken(token);
+            return ResponseEntity.ok(memberInfo);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Token decoding failed");
+        }    }
 }

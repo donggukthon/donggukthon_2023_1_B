@@ -1,6 +1,6 @@
 package flirting.demo.service;
 
-import flirting.demo.dto.GroupCreateRequest;
+import flirting.demo.dto.request.GroupCreateRequest;
 import flirting.demo.entity.Group;
 import flirting.demo.entity.Member;
 import flirting.demo.repository.GroupRepository;

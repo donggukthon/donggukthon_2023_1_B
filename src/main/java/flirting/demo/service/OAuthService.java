@@ -1,8 +1,17 @@
 package flirting.demo.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import flirting.demo.dto.response.GoogleOAuthResponse;
+import flirting.demo.dto.response.MemberResponse;
+import flirting.demo.entity.Member;
 import flirting.demo.repository.MemberRepository;
+import io.jsonwebtoken.impl.Base64UrlCodec;
+import io.jsonwebtoken.io.Decoders;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,8 +22,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.Optional;
 
 
 @Service
@@ -68,8 +78,60 @@ public class OAuthService {
                 e.printStackTrace();
             }
         }
-
         return null;
     }
 
+    public MemberResponse decodeToken(String token) {
+        String decode = decryptBase64UrlToken(token.split("\\.")[1]);
+        System.out.println("decode = " + decode);
+        return transJsonToMemberInfoDto(decode);
+    }
+
+    public String decryptBase64UrlToken(String jwtToken) {
+        byte[] decode = Decoders.BASE64URL.decode(jwtToken);
+        return new String(decode, StandardCharsets.UTF_8);
+    }
+
+    public MemberResponse transJsonToMemberInfoDto(String json) {
+        try {
+            ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            MemberResponse dto = mapper.readValue(json, MemberResponse.class);
+            System.out.println("MemberRespone로 변경= " + dto);
+            saveMemberInfo(dto);
+            return dto;
+        } catch (JsonMappingException e) {
+            throw new RuntimeException(e);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Transactional
+    public void saveMemberInfo(MemberResponse dto) {
+        try {
+            Optional<Member> member = memberRepository.findByOauthId(dto.getOauthId());
+            System.out.println("멤버 조회");
+            System.out.println("OAuth ID: " + dto.getOauthId());
+            System.out.println("member 존재 여부: " + member.isPresent());
+            processMember(member, dto);
+        } catch (Exception e) {
+            e.printStackTrace(); // 예외 정보 출력
+            // 필요한 경우, 여기서 추가적인 예외 처리를 할 수 있습니다.
+        }
+    }
+
+    private void processMember(Optional<Member> member, MemberResponse dto) {
+        member.ifPresentOrElse(
+                existingMember -> {
+                    // 이미 존재하는 멤버에 대한 처리
+                    System.out.println("멤버가 이미 존재합니다: " + existingMember);
+                },
+                () -> {
+                    // 새 멤버 저장
+                    Member newMember = dto.toEntity();
+                    System.out.println("새 멤버 저장됨: " + newMember);
+                    memberRepository.save(newMember);
+                }
+        );
+    }
 }

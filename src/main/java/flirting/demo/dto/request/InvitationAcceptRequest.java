@@ -1,4 +1,4 @@
-package flirting.demo.dto;
+package flirting.demo.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -9,13 +9,11 @@ import lombok.NoArgsConstructor;
 public class InvitationAcceptRequest {
     Long memberId;
     Long groupId;
-    Long inviterId;
 
     @Builder
-    public InvitationAcceptRequest(Long memberId, Long groupId, Long inviterId) {
+    public InvitationAcceptRequest(Long memberId, Long groupId) {
         this.memberId = memberId;
         this.groupId = groupId;
-        this.inviterId = inviterId;
     }
 
 }

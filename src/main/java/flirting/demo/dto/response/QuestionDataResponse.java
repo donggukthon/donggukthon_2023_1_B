@@ -1,4 +1,5 @@
-package flirting.demo.dto;
+package flirting.demo.dto.response;
+
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import flirting.demo.entity.Member;
@@ -9,18 +10,18 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class VoteGuessDataResponse {
-
-    Integer snowflakes;
+public class QuestionDataResponse {
+    List<Long> questionIdList;
     Long questionId;
     String question;
+
     Long memberCnt;
     List<OptionData> optionList;
 
     @Builder
-    public VoteGuessDataResponse(Integer snowflakes, Question question, List<Member> members, Long memberCnt) {
+    public QuestionDataResponse(List<Long> questionIdList, Question question, List<Member> members, Long memberCnt) {
 //        System.out.println("question: "+ question.getId() + " " + question.getContent());
-        this.snowflakes = snowflakes;
+        this.questionIdList = questionIdList;
         this.questionId = question.getId();
         this.question = question.getContent();
         this.memberCnt = memberCnt;
@@ -40,5 +41,4 @@ public class VoteGuessDataResponse {
             this.memberName = member.getUsername();
         }
     }
-
 }
