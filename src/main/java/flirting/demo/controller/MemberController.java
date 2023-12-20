@@ -21,6 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
     private final MemberService memberService;
 
+    @GetMapping("/")
+    public ResponseEntity hello() {
+        return ResponseEntity.ok("배포 자동화");
+    }
+
     @GetMapping("/health")
     private ResponseEntity<ApiStatus> healthCheck() {
         HttpHeaders httpHeaders = new HttpHeaders();

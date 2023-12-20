@@ -25,7 +25,7 @@ public class Invitation {
     private Member sender;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "receiver_id", nullable = false)
+    @JoinColumn(name = "receiver_id")
     private Member receiver;
 
     @ManyToOne(fetch = FetchType.LAZY)

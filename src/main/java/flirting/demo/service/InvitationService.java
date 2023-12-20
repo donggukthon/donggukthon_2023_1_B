@@ -27,14 +27,15 @@ public class InvitationService {
             // Todo: 동일 member id, group id인 멤버 이미 존재하면 오류 반환
             Group group = groupRepository.getReferenceById(groupId);
             Member inviter = memberRepository.getReferenceById(inviterId);
-
+            System.out.println("get group and inviter");
             Invitation invitation = Invitation.builder()
                     .sender(inviter)
                     .group(group)
                     .build();
-
-            Invitation _invitation = invitationRepository.save(invitation);
-            return _invitation;
+            System.out.println("build invitation");
+//            Invitation _invitation = invitationRepository.save(invitation);
+            System.out.println("save invitation");
+            return invitation;
         }
         catch (RuntimeException e) {
             throw new RuntimeException("사용자의 초대장을 조회할 수 없습니다.");
