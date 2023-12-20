@@ -1,4 +1,4 @@
-package flirting.demo.dto;
+package flirting.demo.dto.response;
 
 import flirting.demo.entity.Member;
 import lombok.Builder;

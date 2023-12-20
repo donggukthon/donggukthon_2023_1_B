@@ -3,7 +3,7 @@ package flirting.demo.controller;
 import flirting.demo.common.ApiStatus;
 import flirting.demo.common.ResponseData;
 import flirting.demo.common.StatusCode;
-import flirting.demo.dto.SettingResponse;
+import flirting.demo.dto.response.SettingResponse;
 import flirting.demo.entity.Member;
 import flirting.demo.service.MemberService;
 import lombok.RequiredArgsConstructor;
