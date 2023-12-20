@@ -2,18 +2,16 @@ package flirting.demo.service;
 
 import flirting.demo.common.CustomException;
 import flirting.demo.common.StatusCode;
-import flirting.demo.dto.VoteRequest;
+import flirting.demo.dto.request.VoteRequest;
 import flirting.demo.entity.Member;
 import flirting.demo.entity.Question;
 import flirting.demo.entity.Vote;
 import flirting.demo.repository.MemberRepository;
 import flirting.demo.repository.QuestionRepository;
 import flirting.demo.repository.VoteRepository;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.internal.log.SubSystemLogging;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

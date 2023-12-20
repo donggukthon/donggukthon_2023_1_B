@@ -1,4 +1,4 @@
-package flirting.demo.dto;
+package flirting.demo.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

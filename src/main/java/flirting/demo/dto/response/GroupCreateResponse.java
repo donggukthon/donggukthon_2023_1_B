@@ -1,4 +1,4 @@
-package flirting.demo.dto;
+package flirting.demo.dto.response;
 
 import lombok.Getter;
 
