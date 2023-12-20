@@ -9,7 +9,8 @@
 빈칸을 보고 제일 먼저 생각나는 사람에게 FLIRTING으로 마음을 전해보세요! 🎄
 <br>
 
-FLIRTING 사용해보기 👉🏻 ////
+FLIRTING 사용해보기 👉🏻 (https://flirting.vercel.app/) <br/>
+⛔️ 주의 - 모바일 웹 뷰로만 사용 가능
 
 <br>
 
