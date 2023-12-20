@@ -1,12 +1,10 @@
 package flirting.demo.controller;
 
 import flirting.demo.common.ApiStatus;
+import flirting.demo.common.CustomException;
 import flirting.demo.common.ResponseData;
 import flirting.demo.common.StatusCode;
-import flirting.demo.dto.QuestionDataResponse;
-import flirting.demo.dto.VoteGuessDataResponse;
-import flirting.demo.dto.VoteRequest;
-import flirting.demo.dto.VoteResultResponse;
+import flirting.demo.dto.*;
 import flirting.demo.entity.Member;
 import flirting.demo.entity.Question;
 import flirting.demo.entity.Vote;
@@ -110,4 +108,36 @@ public class VoteController {
         }
     }
 
+    @PutMapping(value = "/guess", produces = "application/json")
+    public ResponseEntity<Object> guess(@RequestBody VoteGuessRequest voteGuessRequest) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        try {
+            Long memberId = voteGuessRequest.getMemberId();
+            Long selecteMemberId = voteGuessRequest.getSelectedMemberId();
+            boolean isCorrect = voteService.getIsCorrect(voteGuessRequest);
+
+            Member _member = voteService.updateSnowFlakes(memberId);
+            Member selectedMember = voteService.getMemberById(selecteMemberId);
+
+            VoteGuessResponse voteGuessResponse = VoteGuessResponse.builder()
+                    .member(_member)
+                    .selectedMember(selectedMember)
+                    .isCorrect(isCorrect)
+                    .snowflakes(_member.getSnowflake())
+                    .build();
+
+            return new ResponseEntity<>(
+                    new ResponseData(
+                            new ApiStatus(StatusCode.OK, "투표 맞추기 시도"),
+                            voteGuessResponse
+                    ), httpHeaders, HttpStatus.OK
+            );
+
+        }catch (CustomException e) {
+            return new ResponseEntity<>(
+                    new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, e.getMessage()),
+                    httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
 }
