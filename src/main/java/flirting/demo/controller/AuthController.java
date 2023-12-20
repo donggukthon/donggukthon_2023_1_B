@@ -28,7 +28,7 @@ public class AuthController {
     @GetMapping("/callback/google")
     public RedirectView successGoogleLogin(@RequestParam("code") String accessCode) {
         String userToken = oAuthService.getGoogleAccessToken(accessCode);
-        String redirectUrl = "http://localhost:3000/googleLogin?token=" + userToken;
+        String redirectUrl = "https://flirting.vercel.app/googleLogin?token=" + userToken;
         return new RedirectView(redirectUrl);
     }
 
