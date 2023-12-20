@@ -22,13 +22,10 @@ public class QuestionService {
         if (questions.size() != 7) {
             throw new CustomException(StatusCode.QUESTION_CNT_NOT_SEVEN);
         }
-        try{
             List<Long> questionIdList = questions.stream()
                     .map(question -> question.getId()).toList();
             return questionIdList;
-        }catch (RuntimeException e) {
-            throw new RuntimeException("질문의 id를 조회하는 과정에서 에러 발생");
-        }
+
     }
 
     public List<Member> getOptionList(Long memberId, Long groupId) {
