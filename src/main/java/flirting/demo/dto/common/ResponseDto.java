@@ -1,9 +1,14 @@
 package flirting.demo.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import flirting.demo.exception.CommonException;
+import flirting.demo.exception.ErrorCode;
 import jakarta.annotation.Nullable;
 import lombok.Getter;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 
 @Getter
 public class ResponseDto<T> {
@@ -37,4 +42,23 @@ public class ResponseDto<T> {
         return new ResponseDto<>(HttpStatus.CREATED, true, data, null);
     }
 
+    // fail: non-defined error
+    public static ResponseDto<Object> fail(CommonException e){
+        return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR, false, null, new ExceptionDto(e.getErrorCode()));
+    }
+
+    // fail - bad request
+    public static ResponseDto<Object> fail(MethodArgumentNotValidException e) {
+        return new ResponseDto<>(HttpStatus.BAD_REQUEST, false, null, new ExceptionDto(ErrorCode.INVALID_ARGUMENT));
+    }
+
+    public static ResponseDto<Object> fail(ConstraintViolationException e) {
+        return new ResponseDto<>(HttpStatus.BAD_REQUEST, false, null, new ExceptionDto(ErrorCode.INVALID_ARGUMENT));
+    }
+
+    public static ResponseDto<Object> fail(MissingServletRequestParameterException e) {
+        // Todo : MissingRequestValueException vs. MissingServletRequestParameterException
+        // 이름만 보면 전자가 맞을 것 같은데 왜?
+        return new ResponseDto<>(HttpStatus.BAD_REQUEST, false, null, new ExceptionDto(ErrorCode.MISSING_REQUEST_PARAMETER));
+    }
 }
