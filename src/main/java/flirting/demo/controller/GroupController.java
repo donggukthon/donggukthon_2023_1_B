@@ -1,8 +1,8 @@
 package flirting.demo.controller;
 
-import flirting.demo.common.ApiStatus;
-import flirting.demo.common.ResponseData;
-import flirting.demo.common.StatusCode;
+import flirting.demo.dto.common.ApiStatus;
+import flirting.demo.dto.common.ResponseData;
+import flirting.demo.dto.common.StatusCode;
 import flirting.demo.dto.request.GroupCreateRequest;
 import flirting.demo.dto.response.GroupCreateResponse;
 import flirting.demo.dto.response.GroupListResponse;

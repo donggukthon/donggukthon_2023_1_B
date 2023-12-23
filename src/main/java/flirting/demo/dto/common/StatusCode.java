@@ -1,4 +1,4 @@
-package flirting.demo.common;
+package flirting.demo.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package flirting.demo.exception;
 
-import flirting.demo.common.CustomException;
-import flirting.demo.common.StatusCode;
+import flirting.demo.dto.common.CustomException;
+import flirting.demo.dto.common.StatusCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

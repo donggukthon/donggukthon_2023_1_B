@@ -1,12 +1,11 @@
 package flirting.demo.controller;
 
-import flirting.demo.common.ApiStatus;
-import flirting.demo.common.ResponseData;
-import flirting.demo.common.StatusCode;
+import flirting.demo.dto.common.ApiStatus;
+import flirting.demo.dto.common.ResponseData;
+import flirting.demo.dto.common.StatusCode;
 import flirting.demo.dto.request.InvitationAcceptRequest;
 import flirting.demo.dto.response.InvitationAcceptResponse;
 import flirting.demo.dto.response.InvitationResponse;
-import flirting.demo.dto.response.MemberResponse;
 import flirting.demo.entity.Invitation;
 import flirting.demo.service.InvitationService;
 import flirting.demo.service.OAuthService;
