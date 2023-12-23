@@ -1,6 +1,7 @@
 package flirting.demo.exception;
 
 import flirting.demo.dto.common.CustomException;
+import flirting.demo.dto.common.ResponseDto;
 import flirting.demo.dto.common.StatusCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,22 +16,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = { Exception.class })
     @ResponseBody
-    public ResponseEntity<?> handlerException(Exception e) {
+    public ResponseDto<?> handlerException(Exception e) {
+        // 서버 측 문제
+        //
         log.error("Handing Exception : {}", e.getMessage());
         e.printStackTrace();
-        return new ResponseEntity<>(
-                StatusCode.INTERNAL_SERVER_ERROR,
-                HttpStatus.INTERNAL_SERVER_ERROR
-        );
+        return ResponseDto.fail(new CommonException(ErrorCode.INTERNAL_SERVER_ERROR));
     }
 
-    @ExceptionHandler(value = { CustomException.class })
+    @ExceptionHandler(value = { CommonException.class })
     @ResponseBody
-    public ResponseEntity<?> handlerCustomException(CustomException e) {
-        log.error("Handing CustomException : {}", e.getErrorCode().getStatusMessage());
-        return new ResponseEntity<>(
-                e.getErrorCode(),
-                e.getErrorCode().getHttpStatus()
-        );
+    public ResponseDto<?> handlerCustomException(CommonException e) {
+        log.error("Handing CustomException : {}", e.getErrorCode().getMessage());
+        return ResponseDto.fail(e);
     }
 }
