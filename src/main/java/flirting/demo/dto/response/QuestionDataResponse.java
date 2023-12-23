@@ -14,7 +14,6 @@ public class QuestionDataResponse {
     List<Long> questionIdList;
     Long questionId;
     String question;
-
     Long memberCnt;
     List<OptionData> optionList;
 

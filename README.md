@@ -1,4 +1,6 @@
 ## ❄️ FLIRTING
+- 제 1회 동국톤 인프런 우수상 수상
+  
 ![Slide 16_9 - 29](https://github.com/donggukthon/donggukthon_2023_1_B/assets/84651773/ceb5b183-fe23-4fef-b877-3c92bab73311)
 <br>
 ## 👋🏻 프로젝트 소개

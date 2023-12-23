@@ -33,11 +33,8 @@ public class VoteService {
         Member voter = memberRepository.getReferenceById(voteRequest.getVoterId());
         Member selectedMember = memberRepository.getReferenceById(voteRequest.getSelectedMemberId());
         Group group = groupRepository.getReferenceById(voteRequest.getGroupId());
-
         Vote vote = voteRequest.toEntity(question, voter, selectedMember, group);
-
         Vote _vote = voteRepository.save(vote);
-
         return _vote;
     }
 
@@ -48,7 +45,6 @@ public class VoteService {
         Long mostVotedCnt = voteRepository.getMostVotedCnt(mostVoted.getId(), groupId, questionId);
 
         Long myVoteCnt = voteRepository.getMyVotes(memberId, groupId, questionId);
-        // VoteRepoResult myVoteResult = myVoteResults.stream().findFirst().orElseThrow(() -> new CustomException(StatusCode.NO_SELECTED_VOTE));
         Member currentMember = memberRepository.getReferenceById(memberId);
 
         return VoteResult.builder()
@@ -68,16 +64,9 @@ public class VoteService {
         return questionRepository.getReferenceById(questionId);
     }
 
-    // Todo: 중복 제거
     public List<Member> getOptionList(Long memberId, Long groupId) {
 
-        // 내가 속한 그룹에 있는 모든 사람들 조회
         List<Member> options = memberRepository.getAllMembersExceptMe(memberId, groupId);
-        // 그룹에 멤버가 나 혼자 -> 제거하고 멤버 수 반환
-//        if (options.size() == 0) {
-//            throw new CustomException(StatusCode.NO_OTHER_MEMBERS_IN_GROUP);
-//        }
-        // 자기 자신 제외하고 주기
         if (options.stream().filter(op -> op.getId() == memberId).findAny().isPresent()) {
             throw new CustomException(StatusCode.MYSELF_IN_OPTIONS);
         }
@@ -100,8 +89,6 @@ public class VoteService {
         if (member.getSnowflake() < 10){
             throw new CustomException(StatusCode.SNOWFLAKE_NOT_ENOUGH);
         }
-
-
         Optional<Vote> vote = voteRepository.getVoteByGuessRequest(memberId, selectedMemberId, groupId, questionId);
 
         if (vote.isEmpty()) {
@@ -110,8 +97,7 @@ public class VoteService {
             member.updateSnowflake(+15);
             memberRepository.save(member);
             return true;
-        }
-        else {
+        } else {
             throw new CustomException(StatusCode.INTERNAL_SERVER_ERROR);
         }
     }
@@ -129,7 +115,6 @@ public class VoteService {
     public Member getMemberById(Long memberId) {
         return memberRepository.getReferenceById(memberId);
     }
-
 
     @Getter
     public static class VoteRepoResult {

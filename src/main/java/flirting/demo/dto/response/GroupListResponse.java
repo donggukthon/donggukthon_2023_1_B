@@ -15,9 +15,9 @@ public class GroupListResponse {
     public GroupListResponse(List<Group> groups) {
         groups.forEach(group -> {
             this.groupList.add(GroupListData.builder()
-                            .groupId(group.getId())
-                            .groupName(group.getName())
-                    .build());
+                .groupId(group.getId())
+                .groupName(group.getName())
+                .build());
         });
     }
 

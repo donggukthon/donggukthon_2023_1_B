@@ -19,7 +19,6 @@ public class VoteGuessDataResponse {
 
     @Builder
     public VoteGuessDataResponse(Integer snowflakes, Question question, List<Member> members, Long memberCnt) {
-//        System.out.println("question: "+ question.getId() + " " + question.getContent());
         this.snowflakes = snowflakes;
         this.questionId = question.getId();
         this.question = question.getContent();

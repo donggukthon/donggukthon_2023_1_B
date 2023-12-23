@@ -33,8 +33,9 @@ public class Member {
     @Column(name = "oauth_id",length = 1000)
     private String oauthId;
 
+    @Builder.Default
     @Column(length = 50, nullable = false)
-    private int snowflake;
+    private int snowflake = 40;
 
     @ManyToMany(mappedBy = "members")
     private List<Group> groups = new ArrayList<>();

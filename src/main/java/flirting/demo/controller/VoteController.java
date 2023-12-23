@@ -68,7 +68,7 @@ public class VoteController {
                     httpHeaders, HttpStatus.OK
             );
         }catch (RuntimeException e) {
-            // Todo: CustomException 반환하는 걸로 수정
+        // Todo: CustomException 반환하는 걸로 수정
             return new ResponseEntity<>(
                     new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, e.getMessage()),
                     httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -113,7 +113,6 @@ public class VoteController {
     @PutMapping(value = "/guess", produces = "application/json")
     public ResponseEntity<Object> guess(@RequestBody VoteGuessRequest voteGuessRequest) {
         HttpHeaders httpHeaders = new HttpHeaders();
-//        try {
             Long memberId = voteGuessRequest.getMemberId();
             Long selecteMemberId = voteGuessRequest.getSelectedMemberId();
             boolean isCorrect = voteService.getIsCorrect(voteGuessRequest);
@@ -134,12 +133,5 @@ public class VoteController {
                             voteGuessResponse
                     ), httpHeaders, HttpStatus.OK
             );
-
-//        }catch (CustomException e) {
-//            return new ResponseEntity<>(
-//                    new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, e.getMessage()),
-//                    httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR
-//            );
-//        }
     }
 }

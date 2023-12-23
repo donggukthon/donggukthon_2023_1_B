@@ -19,23 +19,17 @@ public class GroupService {
     private final MemberRepository memberRepository;
 
     public Group create(GroupCreateRequest groupCreateRequest) {
-//        System.out.println("group name: " + groupCreateRequest.getName());
             Group group = groupRepository.save(
                     Group.builder()
-                            .name(groupCreateRequest.getName())
-                            .build()
+                        .name(groupCreateRequest.getName())
+                        .build()
             );
-
             Member member = memberRepository.getReferenceById(groupCreateRequest.getMemberId());
             group.getMembers().add(member);
             member.getGroups().add(group);
-
             groupRepository.save(group);
             memberRepository.save(member);
-
             return group;
-
-
     }
 
     public List<Group> getGroups(Long memberId) {

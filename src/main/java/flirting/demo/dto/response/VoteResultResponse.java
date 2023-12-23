@@ -10,7 +10,6 @@ public class VoteResultResponse {
     Integer snowflakes;
     Long questionId;
     String question;
-
     Long totalVoteCnt;
     String mostVoted;
     Integer mostVotedCnt;
