@@ -3,6 +3,8 @@ package flirting.demo.service;
 import flirting.demo.dto.request.GroupCreateRequest;
 import flirting.demo.entity.Group;
 import flirting.demo.entity.Member;
+import flirting.demo.exception.CommonException;
+import flirting.demo.exception.ErrorCode;
 import flirting.demo.repository.GroupRepository;
 import flirting.demo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +33,11 @@ public class GroupService {
     }
 
     public List<Group> getGroups(Long memberId) {
-            List<Group> groups = groupRepository.getGroupsByMemberId(memberId);
-            return groups;
-
+        // memberId에 해당하는 멤버가 없는 경우 예외처리
+        if (!memberRepository.existsById(memberId)){
+            throw new CommonException(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
+        List<Group> groups = groupRepository.getGroupsByMemberId(memberId);
+        return groups;
     }
 }

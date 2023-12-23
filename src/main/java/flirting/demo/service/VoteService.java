@@ -1,7 +1,7 @@
 package flirting.demo.service;
 
-import flirting.demo.common.CustomException;
-import flirting.demo.common.StatusCode;
+import flirting.demo.dto.common.CustomException;
+import flirting.demo.dto.common.StatusCode;
 import flirting.demo.dto.request.VoteGuessRequest;
 import flirting.demo.dto.request.VoteRequest;
 import flirting.demo.entity.Group;

@@ -1,9 +1,8 @@
 package flirting.demo.controller;
 
-import flirting.demo.common.ApiStatus;
-import flirting.demo.common.CustomException;
-import flirting.demo.common.ResponseData;
-import flirting.demo.common.StatusCode;
+import flirting.demo.dto.common.ApiStatus;
+import flirting.demo.dto.common.ResponseData;
+import flirting.demo.dto.common.StatusCode;
 import flirting.demo.dto.request.VoteGuessRequest;
 import flirting.demo.dto.response.VoteGuessResponse;
 import flirting.demo.dto.response.VoteGuessDataResponse;

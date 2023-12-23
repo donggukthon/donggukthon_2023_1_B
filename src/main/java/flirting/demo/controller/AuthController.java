@@ -1,12 +1,8 @@
 package flirting.demo.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import flirting.demo.common.ApiStatus;
-import flirting.demo.common.ResponseData;
-import flirting.demo.common.StatusCode;
+import flirting.demo.dto.common.ApiStatus;
+import flirting.demo.dto.common.ResponseData;
+import flirting.demo.dto.common.StatusCode;
 import flirting.demo.dto.response.MemberInfoResponse;
 import flirting.demo.dto.response.MemberResponse;
 import flirting.demo.entity.Member;
