@@ -1,7 +1,5 @@
 package flirting.demo.service;
 
-import flirting.demo.dto.common.CustomException;
-import flirting.demo.dto.common.StatusCode;
 import flirting.demo.entity.Member;
 import flirting.demo.entity.Question;
 import flirting.demo.exception.CommonException;
