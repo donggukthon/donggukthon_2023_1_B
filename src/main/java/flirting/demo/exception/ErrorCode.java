@@ -13,6 +13,7 @@ public enum ErrorCode {
 
 
     ACCESS_DENIED(4030, HttpStatus.INTERNAL_SERVER_ERROR, "접근 권한 거부"),
+    TOKEN_DECODE_FAILED(4031, HttpStatus.INTERNAL_SERVER_ERROR, "토큰 디코딩 실패"),
 
 
     MEMBER_NOT_FOUND(4040, HttpStatus.NOT_FOUND, "조회된 멤버 없음"),
