@@ -2,6 +2,7 @@ package flirting.demo.controller;
 
 import flirting.demo.dto.common.ApiStatus;
 import flirting.demo.dto.common.ResponseData;
+import flirting.demo.dto.common.ResponseDto;
 import flirting.demo.dto.common.StatusCode;
 import flirting.demo.dto.response.SettingResponse;
 import flirting.demo.entity.Member;
@@ -25,28 +26,16 @@ public class MemberController {
     public ResponseEntity hello() {
         return ResponseEntity.ok("배포 자동화");
     }
-    
-    @GetMapping(value = "/setting/{memberId}", produces = "application/json")
-    private ResponseEntity<Object> getSetting(@PathVariable("memberId") Long memberId){
-        HttpHeaders httpHeaders = new HttpHeaders();
-        try {
-            Member member = memberService.getMemberById(memberId);
-            SettingResponse settingResponse = SettingResponse.builder()
-                    .member(member)
-                    .build();
 
-            return new ResponseEntity<>(
-                    new ResponseData(
-                            new ApiStatus(StatusCode.OK, "설정 정보 조회"),
-                            settingResponse
-                    ), httpHeaders, HttpStatus.OK
-            );
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(
-                    new ApiStatus(StatusCode.INTERNAL_SERVER_ERROR, e.getMessage()),
-                    httpHeaders, HttpStatus.INTERNAL_SERVER_ERROR
-            );
-        }
+    @GetMapping(value = "/setting/{memberId}", produces = "application/json")
+    private ResponseDto<?> getSetting(@PathVariable("memberId") Long memberId) {
+        Member member = memberService.getMemberById(memberId);
+        SettingResponse settingResponse = SettingResponse.builder()
+                .member(member)
+                .build();
+
+        return ResponseDto.ok(settingResponse);
+
     }
 
 }
