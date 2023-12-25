@@ -1,16 +1,13 @@
 package flirting.demo.controller;
 
-import flirting.demo.dto.common.ApiStatus;
-import flirting.demo.dto.common.ResponseData;
-import flirting.demo.dto.common.StatusCode;
+import flirting.demo.dto.common.ResponseDto;
 import flirting.demo.dto.response.MemberInfoResponse;
 import flirting.demo.dto.response.MemberResponse;
 import flirting.demo.entity.Member;
+import flirting.demo.exception.CommonException;
+import flirting.demo.exception.ErrorCode;
 import flirting.demo.service.OAuthService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -34,10 +31,9 @@ public class AuthController {
     }
 
     @GetMapping("/decode")
-    public ResponseEntity<?> jwtDecode(@RequestHeader(value = "Authorization") String authorizationHeader) {
+    public ResponseDto<?> jwtDecode(@RequestHeader(value = "Authorization") String authorizationHeader) {
         try {
             String token = authorizationHeader.substring("Bearer ".length());
-            HttpHeaders httpHeaders = new HttpHeaders();
             MemberResponse memberInfo = oAuthService.decodeToken(token);
             Member member = oAuthService.findMemberByOauthId(memberInfo.getOauthId());
 
@@ -46,13 +42,10 @@ public class AuthController {
             memberInfoResponse.setMemberId(member.getId());
             memberInfoResponse.setSnowflake(member.getSnowflake());
 
-            return new ResponseEntity<>(new ResponseData(
-                    new ApiStatus(StatusCode.OK, "유저 조회 성공"),
-                    memberInfoResponse
-            ), httpHeaders, HttpStatus.OK);
+            return ResponseDto.ok("유저 조회 성공");
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Token decoding failed");
+            throw new CommonException(ErrorCode.TOKEN_DECODE_FAILED);
         }
     }
 }
