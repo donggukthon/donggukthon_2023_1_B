@@ -1,19 +1,12 @@
 package flirting.demo.controller;
 
-import flirting.demo.dto.common.ApiStatus;
-import flirting.demo.dto.common.ResponseData;
 import flirting.demo.dto.common.ResponseDto;
-import flirting.demo.dto.common.StatusCode;
 import flirting.demo.dto.request.InvitationAcceptRequest;
 import flirting.demo.dto.response.InvitationAcceptResponse;
 import flirting.demo.dto.response.InvitationResponse;
 import flirting.demo.entity.Invitation;
 import flirting.demo.service.InvitationService;
-import flirting.demo.service.OAuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

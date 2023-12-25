@@ -1,9 +1,6 @@
 package flirting.demo.controller;
 
-import flirting.demo.dto.common.ApiStatus;
-import flirting.demo.dto.common.ResponseData;
 import flirting.demo.dto.common.ResponseDto;
-import flirting.demo.dto.common.StatusCode;
 import flirting.demo.dto.response.QuestionDataResponse;
 import flirting.demo.dto.response.QuestionListResponse;
 import flirting.demo.entity.Member;
@@ -12,9 +9,6 @@ import flirting.demo.exception.CommonException;
 import flirting.demo.exception.ErrorCode;
 import flirting.demo.service.QuestionService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
