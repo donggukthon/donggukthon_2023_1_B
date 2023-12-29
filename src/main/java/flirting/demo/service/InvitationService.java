@@ -33,33 +33,6 @@ public class InvitationService {
         return invitationResponse;
     }
 
-    public Invitation createInvitation(Long inviterId, Long groupId) {
-        // Todo: 동일 member id, group id인 멤버 이미 존재하면 오류 반환 -> accept에서 처리힘
-        if (!groupRepository.existsById(groupId)) {
-            throw new CommonException(ErrorCode.GROUP_NOT_FOUND);
-        }
-        if (!memberRepository.existsById(inviterId)) {
-            throw new CommonException(ErrorCode.MEMBER_NOT_FOUND);
-        }
-        Group group = groupRepository.getReferenceById(groupId);
-        Member inviter = memberRepository.getReferenceById(inviterId);
-
-        Invitation invitation = Invitation.builder()
-                .sender(inviter)
-                .group(group)
-                .build();
-
-        return invitation;
-
-    }
-
-    public Long getMemberCnt(Long groupId) {
-        if (!groupRepository.existsById(groupId)) {
-            throw new CommonException(ErrorCode.GROUP_NOT_FOUND);
-        }
-        return memberRepository.getMemberCnt(groupId);
-    }
-
     // Todo: groupId, memberId로 조회했을 때 두개 이상이면 예외 처리 로직 추가 -> 해결
     public InvitationAcceptResponse acceptInvitation(InvitationAcceptRequest invitationAcceptRequest) {
         Long receiverId = invitationAcceptRequest.getMemberId();
@@ -105,4 +78,34 @@ public class InvitationService {
         } else throw new CommonException(ErrorCode.GROUP_ALREADY_JOINED);
 
     }
+
+
+    // 이하 메소드 서비스 내부에서 호출
+    private Invitation createInvitation(Long inviterId, Long groupId) {
+        // Todo: 동일 member id, group id인 멤버 이미 존재하면 오류 반환 -> accept에서 처리힘
+        if (!groupRepository.existsById(groupId)) {
+            throw new CommonException(ErrorCode.GROUP_NOT_FOUND);
+        }
+        if (!memberRepository.existsById(inviterId)) {
+            throw new CommonException(ErrorCode.MEMBER_NOT_FOUND);
+        }
+        Group group = groupRepository.getReferenceById(groupId);
+        Member inviter = memberRepository.getReferenceById(inviterId);
+
+        Invitation invitation = Invitation.builder()
+                .sender(inviter)
+                .group(group)
+                .build();
+
+        return invitation;
+
+    }
+
+    private Long getMemberCnt(Long groupId) {
+        if (!groupRepository.existsById(groupId)) {
+            throw new CommonException(ErrorCode.GROUP_NOT_FOUND);
+        }
+        return memberRepository.getMemberCnt(groupId);
+    }
+
 }
