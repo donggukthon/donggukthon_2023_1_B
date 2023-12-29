@@ -2,6 +2,7 @@ package flirting.demo.service;
 
 import flirting.demo.dto.request.InvitationAcceptRequest;
 import flirting.demo.dto.response.InvitationAcceptResponse;
+import flirting.demo.dto.response.InvitationResponse;
 import flirting.demo.entity.Group;
 import flirting.demo.entity.Invitation;
 import flirting.demo.entity.Member;
@@ -20,6 +21,17 @@ import java.util.Optional;
 public class InvitationService {
     private final MemberRepository memberRepository;
     private final GroupRepository groupRepository;
+
+    public InvitationResponse getInvitationList(Long inviterId, Long groupId) {
+        Invitation invitation = createInvitation(inviterId, groupId);
+        Long memberCnt = getMemberCnt(groupId);
+        InvitationResponse invitationResponse = InvitationResponse.builder()
+                .invitation(invitation)
+                .memberCnt(memberCnt)
+                .build();
+
+        return invitationResponse;
+    }
 
     public Invitation createInvitation(Long inviterId, Long groupId) {
         // Todo: 동일 member id, group id인 멤버 이미 존재하면 오류 반환 -> accept에서 처리힘

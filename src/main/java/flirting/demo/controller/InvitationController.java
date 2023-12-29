@@ -2,9 +2,6 @@ package flirting.demo.controller;
 
 import flirting.demo.dto.common.ResponseDto;
 import flirting.demo.dto.request.InvitationAcceptRequest;
-import flirting.demo.dto.response.InvitationAcceptResponse;
-import flirting.demo.dto.response.InvitationResponse;
-import flirting.demo.entity.Invitation;
 import flirting.demo.service.InvitationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -24,20 +21,12 @@ public class InvitationController {
      */
     @GetMapping(value = "/{inviterId}/{groupId}", produces = "application/json")
     public ResponseDto<?> getInvitationList(@PathVariable("inviterId") Long inviterId, @PathVariable("groupId") Long groupId) {
-        Invitation invitation = invitationService.createInvitation(inviterId, groupId);
-        Long memberCnt = invitationService.getMemberCnt(groupId);
-        InvitationResponse invitationResponse = InvitationResponse.builder()
-                .invitation(invitation)
-                .memberCnt(memberCnt)
-                .build();
-
-        return ResponseDto.ok(invitationResponse);
+        return ResponseDto.ok(invitationService.getInvitationList(inviterId, groupId));
     }
 
     @PostMapping(value = "", produces = "application/json")
     public ResponseDto<?> accept(@RequestBody InvitationAcceptRequest invitationAcceptRequest) {
-        InvitationAcceptResponse invitation = invitationService.acceptInvitation(invitationAcceptRequest);
-        return ResponseDto.ok(invitation);
+        return ResponseDto.ok(invitationService.acceptInvitation(invitationAcceptRequest));
 
     }
 }
