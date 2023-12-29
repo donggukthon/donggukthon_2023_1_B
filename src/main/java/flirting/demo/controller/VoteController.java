@@ -25,65 +25,24 @@ public class VoteController {
     public ResponseDto<?> save(@RequestBody VoteRequest voteRequest) {
         Vote vote = voteService.createVote(voteRequest);
         return ResponseDto.ok("투표 생성 완료");
-
     }
 
     @GetMapping(value = "/result/{memberId}/{groupId}/{questionId}")
     public ResponseDto<?> getResult(@PathVariable("memberId") Long memberId,
                                     @PathVariable("groupId") Long groupId,
                                     @PathVariable("questionId") Long questionId) {
-
-        VoteService.VoteResult voteResult = voteService.getVoteResult(memberId, groupId, questionId);
-        Question currentQuestion = voteService.getCurrentQuestion(questionId);
-        Integer snowflakes = voteService.getSnowFlakes(memberId);
-        Long totalVoteCnt = voteService.getTotalVoteCnt(groupId, questionId);
-
-        VoteResultResponse voteResultResponse = VoteResultResponse.builder()
-                .snowflakes(snowflakes)
-                .totalVoteCnt(totalVoteCnt)
-                .question(currentQuestion)
-                .voteResult(voteResult)
-                .build();
-
-        return ResponseDto.ok(voteResultResponse);
+        return ResponseDto.ok(voteService.getTotalResult(memberId, groupId, questionId));
     }
 
     @GetMapping(value = "/guess/{memberId}/{groupId}/{questionId}", produces = "application/json")
     public ResponseDto<?> getGuessData(@PathVariable("memberId") Long memberId,
                                        @PathVariable("groupId") Long groupId,
                                        @PathVariable("questionId") Long questionId) {
-        Question question = voteService.getCurrentQuestion(questionId);
-        List<Member> options = voteService.getOptionList(memberId, groupId);
-        Integer snowflakes = voteService.getSnowFlakes(memberId);
-        Long memberCnt = voteService.getMemberCnt(groupId);
-
-        VoteGuessDataResponse voteGuessDataResponse = VoteGuessDataResponse.builder()
-                .snowflakes(snowflakes)
-                .question(question)
-                .memberCnt(memberCnt)
-                .members(options)
-                .build();
-
-
-        return ResponseDto.ok(voteGuessDataResponse);
+        return ResponseDto.ok(voteService.getGuessData(memberId, groupId, questionId));
     }
 
     @PutMapping(value = "/guess", produces = "application/json")
     public ResponseDto<?> guess(@RequestBody VoteGuessRequest voteGuessRequest) {
-        Long memberId = voteGuessRequest.getMemberId();
-        Long selecteMemberId = voteGuessRequest.getSelectedMemberId();
-        boolean isCorrect = voteService.getIsCorrect(voteGuessRequest);
-
-        Member _member = voteService.updateSnowFlakes(memberId);
-        Member selectedMember = voteService.getMemberById(selecteMemberId);
-
-        VoteGuessResponse voteGuessResponse = VoteGuessResponse.builder()
-                .member(_member)
-                .selectedMember(selectedMember)
-                .isCorrect(isCorrect)
-                .snowflakes(_member.getSnowflake())
-                .build();
-
-        return ResponseDto.ok(voteGuessResponse);
+        return ResponseDto.ok(voteService.getGuessResult(voteGuessRequest));
     }
 }
