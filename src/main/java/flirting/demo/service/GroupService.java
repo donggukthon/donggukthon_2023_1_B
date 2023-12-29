@@ -1,6 +1,8 @@
 package flirting.demo.service;
 
 import flirting.demo.dto.request.GroupCreateRequest;
+import flirting.demo.dto.response.GroupCreateResponse;
+import flirting.demo.dto.response.GroupListResponse;
 import flirting.demo.entity.Group;
 import flirting.demo.entity.Member;
 import flirting.demo.exception.CommonException;
@@ -18,7 +20,7 @@ public class GroupService {
     private final GroupRepository groupRepository;
     private final MemberRepository memberRepository;
 
-    public Group create(GroupCreateRequest groupCreateRequest) {
+    public GroupCreateResponse create(GroupCreateRequest groupCreateRequest) {
             Group group = groupRepository.save(
                     Group.builder()
                         .name(groupCreateRequest.getName())
@@ -29,15 +31,15 @@ public class GroupService {
             member.getGroups().add(group);
             groupRepository.save(group);
             memberRepository.save(member);
-            return group;
+            return new GroupCreateResponse(group.getId());
     }
 
-    public List<Group> getGroups(Long memberId) {
+    public GroupListResponse getGroups(Long memberId) {
         // memberId에 해당하는 멤버가 없는 경우 예외처리
         if (!memberRepository.existsById(memberId)){
             throw new CommonException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
         List<Group> groups = groupRepository.getGroupsByMemberId(memberId);
-        return groups;
+        return new GroupListResponse(groups);
     }
 }

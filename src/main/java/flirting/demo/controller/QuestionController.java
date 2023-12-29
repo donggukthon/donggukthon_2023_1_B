@@ -25,36 +25,11 @@ public class QuestionController {
     public ResponseDto<?> getQuestion(@PathVariable Long memberId,
                                       @PathVariable Long groupId,
                                       @PathVariable Long questionId) {
-
-        List<Long> questionIdList = questionService.getQuestionIdList();
-        Long _questionId = questionId;
-        if (_questionId < 0) { // 첫 투표 질문 조회인 경우
-            Optional<Long> opQuestion = questionIdList.stream().findFirst();
-            if (opQuestion.isEmpty()) {
-                throw new CommonException(ErrorCode.QUESTION_NOT_FOUND);
-            }
-            _questionId = opQuestion.get();
-        }
-        Question question = questionService.getCurrentQuestion(_questionId);
-        List<Member> options = questionService.getOptionList(memberId, groupId);
-        Long memberCnt = questionService.getMemberCnt(groupId);
-
-        QuestionDataResponse questionDataResponse = QuestionDataResponse.builder()
-                .questionIdList(questionIdList)
-                .question(question)
-                .members(options)
-                .memberCnt(memberCnt)
-                .build();
-
-
-        return ResponseDto.ok(questionDataResponse);
-
+        return ResponseDto.ok(questionService.getQuestion(memberId, groupId, questionId));
     }
 
     @GetMapping(value = "", produces = "application/json")
     public ResponseDto<?> getQuestionList() {
-        List<Question> questions = questionService.getQuestionList();
-        QuestionListResponse questionListResponse = new QuestionListResponse(questions);
-        return ResponseDto.ok(questionListResponse);
+        return ResponseDto.ok(questionService.getQuestionList());
     }
 }

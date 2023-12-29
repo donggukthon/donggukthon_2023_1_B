@@ -2,6 +2,9 @@ package flirting.demo.service;
 
 import flirting.demo.dto.request.VoteGuessRequest;
 import flirting.demo.dto.request.VoteRequest;
+import flirting.demo.dto.response.VoteGuessDataResponse;
+import flirting.demo.dto.response.VoteGuessResponse;
+import flirting.demo.dto.response.VoteResultResponse;
 import flirting.demo.entity.Group;
 import flirting.demo.entity.Member;
 import flirting.demo.entity.Question;
@@ -51,7 +54,60 @@ public class VoteService {
         return _vote;
     }
 
-    public VoteResult getVoteResult(Long memberId, Long groupId, Long questionId) {
+    public VoteResultResponse getTotalResult(Long memberId, Long groupId, Long questionId){
+        VoteService.VoteResult voteResult = getVoteResult(memberId, groupId, questionId);
+        Question currentQuestion = getCurrentQuestion(questionId);
+        Integer snowflakes = getSnowFlakes(memberId);
+        Long totalVoteCnt = getTotalVoteCnt(groupId, questionId);
+
+        VoteResultResponse voteResultResponse = VoteResultResponse.builder()
+                .snowflakes(snowflakes)
+                .totalVoteCnt(totalVoteCnt)
+                .question(currentQuestion)
+                .voteResult(voteResult)
+                .build();
+
+        return voteResultResponse;
+    }
+
+    public VoteGuessDataResponse getGuessData(Long memberId, Long groupId, Long questionId){
+        Question question = getCurrentQuestion(questionId);
+        List<Member> options = getOptionList(memberId, groupId);
+        Integer snowflakes = getSnowFlakes(memberId);
+        Long memberCnt = getMemberCnt(groupId);
+
+        VoteGuessDataResponse voteGuessDataResponse = VoteGuessDataResponse.builder()
+                .snowflakes(snowflakes)
+                .question(question)
+                .memberCnt(memberCnt)
+                .members(options)
+                .build();
+
+        return voteGuessDataResponse;
+    }
+
+    public VoteGuessResponse getGuessResult(VoteGuessRequest voteGuessRequest) {
+        Long memberId = voteGuessRequest.getMemberId();
+        Long selecteMemberId = voteGuessRequest.getSelectedMemberId();
+
+        boolean isCorrect = getIsCorrect(voteGuessRequest);
+        Member _member = updateSnowFlakes(memberId);
+
+        if (!memberRepository.existsById(selecteMemberId)) throw new CommonException(ErrorCode.MEMBER_NOT_FOUND);
+        Member selectedMember = memberRepository.getReferenceById(selecteMemberId);
+
+        VoteGuessResponse voteGuessResponse = VoteGuessResponse.builder()
+                .member(_member)
+                .selectedMember(selectedMember)
+                .isCorrect(isCorrect)
+                .snowflakes(_member.getSnowflake())
+                .build();
+
+        return voteGuessResponse;
+    }
+
+    // 이하 메소드 서비스 내부 호출
+    private VoteResult getVoteResult(Long memberId, Long groupId, Long questionId) {
         if (!memberRepository.existsById(memberId)) throw new CommonException(ErrorCode.MEMBER_NOT_FOUND);
         if (!groupRepository.existsById(groupId)) throw new CommonException(ErrorCode.GROUP_NOT_FOUND);
         if (!questionRepository.existsById(questionId)) throw new CommonException(ErrorCode.QUESTION_NOT_FOUND);
@@ -73,20 +129,20 @@ public class VoteService {
 
     }
 
-    public Long getTotalVoteCnt(Long groupId, Long questionId) {
+    private Long getTotalVoteCnt(Long groupId, Long questionId) {
         if (!groupRepository.existsById(groupId)) throw new CommonException(ErrorCode.GROUP_NOT_FOUND);
         if (!questionRepository.existsById(questionId)) throw new CommonException(ErrorCode.QUESTION_NOT_FOUND);
 
         return voteRepository.getTotalVoteCnt(groupId, questionId);
     }
 
-    public Question getCurrentQuestion(Long questionId) {
+    private Question getCurrentQuestion(Long questionId) {
         if (!questionRepository.existsById(questionId)) throw new CommonException(ErrorCode.QUESTION_NOT_FOUND);
 
         return questionRepository.getReferenceById(questionId);
     }
 
-    public List<Member> getOptionList(Long memberId, Long groupId) {
+    private List<Member> getOptionList(Long memberId, Long groupId) {
         if (!memberRepository.existsById(memberId)) throw new CommonException(ErrorCode.MEMBER_NOT_FOUND);
         if (!groupRepository.existsById(groupId)) throw new CommonException(ErrorCode.GROUP_NOT_FOUND);
 
@@ -97,14 +153,14 @@ public class VoteService {
         return options;
     }
 
-    public Integer getSnowFlakes(Long memberId) {
+    private Integer getSnowFlakes(Long memberId) {
         if (!memberRepository.existsById(memberId)) throw new CommonException(ErrorCode.MEMBER_NOT_FOUND);
 
         Member member = memberRepository.getReferenceById(memberId);
         return member.getSnowflake();
     }
 
-    public boolean getIsCorrect(VoteGuessRequest voteGuessRequest) {
+    private boolean getIsCorrect(VoteGuessRequest voteGuessRequest) {
         Long memberId = voteGuessRequest.getMemberId();
         Long selectedMemberId = voteGuessRequest.getSelectedMemberId();
         Long questionId = voteGuessRequest.getQuestionId();
@@ -134,7 +190,7 @@ public class VoteService {
         }
     }
 
-    public Member updateSnowFlakes(Long memberId) {
+    private Member updateSnowFlakes(Long memberId) {
         if (!memberRepository.existsById(memberId)) throw new CommonException(ErrorCode.MEMBER_NOT_FOUND);
 
         Member member = memberRepository.getReferenceById(memberId);
@@ -147,11 +203,13 @@ public class VoteService {
         return _member;
     }
 
-    public Member getMemberById(Long memberId) {
-        if (!memberRepository.existsById(memberId)) throw new CommonException(ErrorCode.MEMBER_NOT_FOUND);
-        return memberRepository.getReferenceById(memberId);
+    private Long getMemberCnt(Long groupId) {
+        if (!groupRepository.existsById(groupId)) throw new CommonException(ErrorCode.GROUP_NOT_FOUND);
+        return memberRepository.getMemberCnt(groupId);
     }
 
+
+    // Todo: repository에서 아래 클래스 형식 객체 반환하도록 수정
     @Getter
     public static class VoteRepoResult {
         String name;
@@ -162,11 +220,6 @@ public class VoteService {
             this.name = name;
             this.cnt = Integer.parseInt(Long.toString(cnt));
         }
-    }
-
-    public Long getMemberCnt(Long groupId) {
-        if (!groupRepository.existsById(groupId)) throw new CommonException(ErrorCode.GROUP_NOT_FOUND);
-        return memberRepository.getMemberCnt(groupId);
     }
 
     @Getter

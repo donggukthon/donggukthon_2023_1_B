@@ -24,13 +24,7 @@ public class MemberController {
 
     @GetMapping(value = "/setting/{memberId}", produces = "application/json")
     private ResponseDto<?> getSetting(@PathVariable("memberId") Long memberId) {
-        Member member = memberService.getMemberById(memberId);
-        SettingResponse settingResponse = SettingResponse.builder()
-                .member(member)
-                .build();
-
-        return ResponseDto.ok(settingResponse);
-
+        return ResponseDto.ok(memberService.getSetting(memberId));
     }
 
 }
